@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 
 Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/ for derived annotations.
@@ -513,7 +513,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Hebr">Hebrew</script>
 			<script type="Hira">Hiragana</script>
 			<script type="Hrkt">Japanese syllabaries</script>
-			<script type="Jamo">↑↑↑</script>
+			<script type="Jamo">Jamo</script>
 			<script type="Jpan">Japanese</script>
 			<script type="Kana">Katakana</script>
 			<script type="Khmr">Khmer</script>
@@ -536,7 +536,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Telu">Telugu</script>
 			<script type="Tfng">Tifinagh</script>
 			<script type="Thaa">Thaana</script>
-			<script type="Thai">↑↑↑</script>
+			<script type="Thai">Thai</script>
 			<script type="Tibt">Tibetan</script>
 			<script type="Vaii">Vai</script>
 			<script type="Yiii">Yi</script>
@@ -929,7 +929,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<type key="collation" type="phonebook">Pagkakasunud-sunod ng Pag-uuri ng Phonebook</type>
 			<type key="collation" type="phonetic">Phonetic na Ayos ng Pag-uuri-uri</type>
 			<type key="collation" type="pinyin">Pagkakasunud-sunod ng Pag-uuri ng Pinyin</type>
-			<type key="collation" type="reformed">Pagkakasunud-sunod ng Pag-uuri ng Na-reform</type>
 			<type key="collation" type="search">Pangkalahatang Paghahanap</type>
 			<type key="collation" type="searchjl">Maghanap Ayon sa Unang Katinig ng Hangul</type>
 			<type key="collation" type="standard">Karaniwang Pagkakasunud-sunod ng Ayos</type>
@@ -2328,7 +2327,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 							<dayPeriod type="morning2">madaling-araw</dayPeriod>
 							<dayPeriod type="afternoon1">tanghali</dayPeriod>
 							<dayPeriod type="evening1">ng gabi</dayPeriod>
-							<dayPeriod type="night1">gabi</dayPeriod>
+							<dayPeriod type="night1">ng gabi</dayPeriod>
 						</dayPeriodWidth>
 						<dayPeriodWidth type="narrow">
 							<dayPeriod type="midnight">↑↑↑</dayPeriod>
@@ -2350,7 +2349,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 							<dayPeriod type="morning2">↑↑↑</dayPeriod>
 							<dayPeriod type="afternoon1">↑↑↑</dayPeriod>
 							<dayPeriod type="evening1">↑↑↑</dayPeriod>
-							<dayPeriod type="night1">ng gabi</dayPeriod>
+							<dayPeriod type="night1">↑↑↑</dayPeriod>
 						</dayPeriodWidth>
 					</dayPeriodContext>
 					<dayPeriodContext type="stand-alone">
@@ -2363,7 +2362,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 							<dayPeriod type="morning2">↑↑↑</dayPeriod>
 							<dayPeriod type="afternoon1">hapon</dayPeriod>
 							<dayPeriod type="evening1">gabi</dayPeriod>
-							<dayPeriod type="night1">↑↑↑</dayPeriod>
+							<dayPeriod type="night1">gabi</dayPeriod>
 						</dayPeriodWidth>
 						<dayPeriodWidth type="narrow">
 							<dayPeriod type="midnight">↑↑↑</dayPeriod>
@@ -2381,11 +2380,11 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 							<dayPeriod type="am">↑↑↑</dayPeriod>
 							<dayPeriod type="noon">↑↑↑</dayPeriod>
 							<dayPeriod type="pm">↑↑↑</dayPeriod>
-							<dayPeriod type="morning1">↑↑↑</dayPeriod>
+							<dayPeriod type="morning1">umaga</dayPeriod>
 							<dayPeriod type="morning2">↑↑↑</dayPeriod>
-							<dayPeriod type="afternoon1">↑↑↑</dayPeriod>
-							<dayPeriod type="evening1">↑↑↑</dayPeriod>
-							<dayPeriod type="night1">↑↑↑</dayPeriod>
+							<dayPeriod type="afternoon1">hapon</dayPeriod>
+							<dayPeriod type="evening1">gabi</dayPeriod>
+							<dayPeriod type="night1">gabi</dayPeriod>
 						</dayPeriodWidth>
 					</dayPeriodContext>
 				</dayPeriods>
@@ -4686,9 +4685,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<regionFormat type="daylight">Daylight Time ng {0}</regionFormat>
 			<regionFormat type="standard">Standard na Oras sa {0}</regionFormat>
 			<fallbackFormat>↑↑↑</fallbackFormat>
-			<zone type="America/Santa_Isabel">
-				<exemplarCity>Santa Isabel</exemplarCity>
-			</zone>
 			<zone type="Etc/UTC">
 				<long>
 					<standard>Coordinated Universal Time</standard>
@@ -4810,9 +4806,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			</zone>
 			<zone type="Australia/Melbourne">
 				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Australia/Currie">
-				<exemplarCity>Currie</exemplarCity>
 			</zone>
 			<zone type="Australia/Hobart">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -4967,9 +4960,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="America/Creston">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Yellowknife">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Edmonton">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
@@ -4988,28 +4978,16 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="America/Resolute">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Rainy_River">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Rankin_Inlet">
 				<exemplarCity>Makipot na Look ng Rankin</exemplarCity>
 			</zone>
 			<zone type="America/Coral_Harbour">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Thunder_Bay">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="America/Nipigon">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Toronto">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Iqaluit">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="America/Pangnirtung">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Moncton">
@@ -5825,16 +5803,10 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="Africa/Dar_es_Salaam">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="Europe/Kiev">
 				<exemplarCity>Kiev</exemplarCity>
 			</zone>
 			<zone type="Europe/Simferopol">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="Africa/Kampala">
@@ -5854,9 +5826,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			</zone>
 			<zone type="Pacific/Honolulu">
 				<exemplarCity>Honolulu</exemplarCity>
-			</zone>
-			<zone type="Pacific/Johnston">
-				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Anchorage">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -6507,11 +6476,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 					<daylight>Daylight Time sa Lorde Howe</daylight>
 				</long>
 			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<standard>Oras sa Macquarie Island</standard>
-				</long>
-			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>Oras sa Magadan</generic>
@@ -6549,13 +6513,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<metazone type="Mawson">
 				<long>
 					<standard>Oras sa Mawson</standard>
-				</long>
-			</metazone>
-			<metazone type="Mexico_Northwest">
-				<long>
-					<generic>Oras sa Hilagang-kanlurang Mexico</generic>
-					<standard>Standard na Oras sa Hilagang-kanlurang Mexico</standard>
-					<daylight>Daylight na Oras sa Hilagang-kanlurang Mexico</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mexico_Pacific">
@@ -7063,8 +7020,8 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 				</currencyFormat>
 			</currencyFormatLength>
 			<currencyPatternAppendISO>↑↑↑</currencyPatternAppendISO>
-			<unitPattern count="one">↑↑↑</unitPattern>
-			<unitPattern count="other">↑↑↑</unitPattern>
+			<unitPattern count="one">{0} {1}</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="AED">
@@ -7932,10 +7889,16 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<currency type="SKK">
 				<displayName draft="contributed">Slovak Koruna</displayName>
 			</currency>
-			<currency type="SLL">
+			<currency type="SLE">
 				<displayName>Sierra Leonean Leone</displayName>
 				<displayName count="one">Sierra Leonean leone</displayName>
 				<displayName count="other">Sierra Leonean leones</displayName>
+				<symbol>↑↑↑</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName>Sierra Leonean Leone (1964—2022)</displayName>
+				<displayName count="one">Sierra Leonean leone (1964—2022)</displayName>
+				<displayName count="other">Sierra Leonean leones (1964—2022)</displayName>
 				<symbol>↑↑↑</symbol>
 			</currency>
 			<currency type="SOS">
@@ -11633,7 +11596,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 		<nameOrderLocales order="surnameFirst">↑↑↑</nameOrderLocales>
 		<parameterDefault parameter="formality">informal</parameterDefault>
 		<parameterDefault parameter="length">↑↑↑</parameterDefault>
-		<nativeSpaceReplacement>↑↑↑</nativeSpaceReplacement>
+		<nativeSpaceReplacement xml:space="preserve">↑↑↑</nativeSpaceReplacement>
 		<foreignSpaceReplacement xml:space="preserve">↑↑↑</foreignSpaceReplacement>
 		<initialPattern type="initial">↑↑↑</initialPattern>
 		<initialPattern type="initialSequence">↑↑↑</initialPattern>

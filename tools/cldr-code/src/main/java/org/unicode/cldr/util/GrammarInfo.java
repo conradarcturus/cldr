@@ -747,13 +747,19 @@ public class GrammarInfo implements Freezable<GrammarInfo> {
 
     static final Set<String> EXCLUDE_GRAMMAR =
             Set.of(
+                    "point",
+                    "dunam",
                     "dot",
                     "astronomical-unit",
                     "nautical-mile",
                     "knot",
                     "dalton",
                     "kilocalorie",
-                    "electronvolt");
+                    "electronvolt",
+                    // The following may be reinstated after 45.
+                    "dot-per-centimeter",
+                    "millimeter-ofhg",
+                    "milligram-ofglucose-per-deciliter");
 
     public static Set<String> getSpecialsToTranslate() {
         return INCLUDE_OTHER;

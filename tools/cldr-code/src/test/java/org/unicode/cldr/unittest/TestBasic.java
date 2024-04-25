@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -57,11 +58,13 @@ import org.unicode.cldr.util.CldrUtility;
 import org.unicode.cldr.util.Counter;
 import org.unicode.cldr.util.DiscreteComparator;
 import org.unicode.cldr.util.DiscreteComparator.Ordering;
+import org.unicode.cldr.util.DoctypeXmlStreamWrapper;
 import org.unicode.cldr.util.DtdData;
 import org.unicode.cldr.util.DtdData.Attribute;
 import org.unicode.cldr.util.DtdData.Element;
 import org.unicode.cldr.util.DtdData.ElementType;
 import org.unicode.cldr.util.DtdType;
+import org.unicode.cldr.util.DtdType.DtdStatus;
 import org.unicode.cldr.util.ElementAttributeInfo;
 import org.unicode.cldr.util.Factory;
 import org.unicode.cldr.util.InputStreamFactory;
@@ -75,6 +78,7 @@ import org.unicode.cldr.util.StandardCodes;
 import org.unicode.cldr.util.SupplementalDataInfo;
 import org.unicode.cldr.util.SupplementalDataInfo.PluralInfo;
 import org.unicode.cldr.util.SupplementalDataInfo.PluralType;
+import org.unicode.cldr.util.TestCLDRPaths;
 import org.unicode.cldr.util.XMLFileReader;
 import org.unicode.cldr.util.XPathParts;
 import org.xml.sax.ErrorHandler;
@@ -171,6 +175,10 @@ public class TestBasic extends TestFmwkPlus {
             List<TimingInfo> data)
             throws IOException {
         boolean deepCheck = getInclusion() >= 10;
+        if (directoryFile.getName().equals("import")
+                && directoryFile.getParentFile().getName().equals("keyboards")) {
+            return; // skip imports
+        }
         File[] listFiles = directoryFile.listFiles();
         String normalizedPath = PathUtilities.getNormalizedPathString(directoryFile);
         String indent = Utility.repeat("\t", level);
@@ -184,6 +192,10 @@ public class TestBasic extends TestFmwkPlus {
                 continue;
             } else if (fileName.isDirectory()) {
                 checkDtds(fileName, level + 1, foundAttributes, data);
+            } else if (fileName.getPath().contains("/keyboards/3.0/")
+                    && logKnownIssue(
+                            "CLDR-17574", "With v46, parsing issues for keyboard xml files")) {
+                ; // do nothing, skip test
             } else if (name.endsWith(".xml")) {
                 data.add(check(fileName));
                 if (deepCheck // takes too long to do all the time
@@ -220,6 +232,9 @@ public class TestBasic extends TestFmwkPlus {
         Relation<Row.R2<DtdType, String>, String> theoryAttributes =
                 Relation.of(new TreeMap<Row.R2<DtdType, String>, Set<String>>(), TreeSet.class);
         for (DtdType type : DtdType.values()) {
+            if (type.getStatus() != DtdType.DtdStatus.active) {
+                continue;
+            }
             DtdData dtdData = DtdData.getInstance(type);
             for (Element element : dtdData.getElementFromName().values()) {
                 String name = element.getName();
@@ -366,6 +381,7 @@ public class TestBasic extends TestFmwkPlus {
             xmlReader.setErrorHandler(new MyErrorHandler());
             InputSource is = new InputSource(fis);
             is.setSystemId(systemID.toString());
+            DoctypeXmlStreamWrapper.wrap(is);
             xmlReader.parse(is);
             // fis.close();
         } catch (SAXException | IOException e) {
@@ -446,6 +462,10 @@ public class TestBasic extends TestFmwkPlus {
                         }
                         // later test for all Latin-1
                         if (fallbackList == null) {
+                            if (locale.equals("nqo")
+                                    && logKnownIssue("CLDR-16987", "fishy fallback test")) {
+                                continue;
+                            }
                             errln(
                                     "Locale:\t"
                                             + locale
@@ -710,7 +730,7 @@ public class TestBasic extends TestFmwkPlus {
                     if (set == null) {
                         results.put(formatted, set = new TreeSet<>());
                     }
-                    set.add(Row.of(locale.toString(), Integer.valueOf(i)));
+                    set.add(Row.of(locale.toString(), i));
                 }
             }
         }
@@ -995,6 +1015,10 @@ public class TestBasic extends TestFmwkPlus {
 
     static final Map<String, String> likelyData = SUPPLEMENTAL_DATA_INFO.getLikelySubtags();
 
+    private static final EnumSet<CldrVersion> badLdmlICUVersions =
+            EnumSet.of(
+                    CldrVersion.v1_1_1, CldrVersion.v1_2, CldrVersion.v1_4_1, CldrVersion.v1_5_1);
+
     public void TestLikelySubtagsComplete() {
         LanguageTagParser ltp = new LanguageTagParser();
         for (String locale : testInfo.getCldrFactory().getAvailable()) {
@@ -1157,6 +1181,9 @@ public class TestBasic extends TestFmwkPlus {
     /** Tests that every dtd item is connected from root */
     public void TestDtdCompleteness() {
         for (DtdType type : DtdType.values()) {
+            if (type.getStatus() != DtdType.DtdStatus.active) {
+                continue;
+            }
             DtdData dtdData = DtdData.getInstance(type);
             Set<Element> descendents = new LinkedHashSet<>();
             dtdData.getDescendents(dtdData.ROOT, descendents);
@@ -1188,9 +1215,7 @@ public class TestBasic extends TestFmwkPlus {
 
     public void TestBasicDTDCompatibility() {
 
-        if (logKnownIssue(
-                "cldrbug:16393",
-                "Comment out until we detect whether to enable cldr-archive for unit tests")) {
+        if (!TestCLDRPaths.canUseArchiveDirectory()) {
             return;
         }
 
@@ -1218,6 +1243,15 @@ public class TestBasic extends TestFmwkPlus {
 
         // test all DTDs
         for (DtdType dtd : DtdType.values()) {
+            if (dtd.getStatus() != DtdType.DtdStatus.active) {
+                continue;
+            }
+            if (dtd.firstVersion != null
+                    && CldrVersion.LAST_RELEASE_VERSION.isOlderThan(
+                            CldrVersion.from(dtd.firstVersion))) {
+                continue; // DTD didn't exist in last release
+            }
+            if (dtd == DtdType.ldmlICU) continue;
             try {
                 ElementAttributeInfo oldDtd = ElementAttributeInfo.getInstance(oldCommon, dtd);
                 ElementAttributeInfo newDtd = ElementAttributeInfo.getInstance(dtd);
@@ -1326,6 +1360,9 @@ public class TestBasic extends TestFmwkPlus {
     public void TestDtdCompatibility() {
 
         for (DtdType type : DtdType.values()) {
+            if (type.getStatus() != DtdType.DtdStatus.active) {
+                continue;
+            }
             DtdData dtdData = DtdData.getInstance(type);
             Map<String, Element> currentElementFromName = dtdData.getElementFromName();
 
@@ -1382,9 +1419,7 @@ public class TestBasic extends TestFmwkPlus {
                     Collections.EMPTY_SET,
                     elementsWithoutSpecial);
 
-            if (logKnownIssue(
-                    "cldrbug:16393",
-                    "Comment out test until cldr-archive is signaled for unit tests on CI")) {
+            if (!TestCLDRPaths.canUseArchiveDirectory()) {
                 return;
             }
 
@@ -1392,19 +1427,27 @@ public class TestBasic extends TestFmwkPlus {
                 if (version == CldrVersion.unknown || version == CldrVersion.baseline) {
                     continue;
                 }
+                if (type.getStatus() != DtdStatus.active) {
+                    continue; // not active
+                }
+                if (type.firstVersion != null
+                        && version.isOlderThan(CldrVersion.from(type.firstVersion))) {
+                    continue; // didn't exist at that point
+                }
                 DtdData dtdDataOld;
                 try {
                     dtdDataOld = DtdData.getInstance(type, version.toString());
                 } catch (IllegalArgumentException e) {
                     boolean tooOld = false;
                     switch (type) {
-                        case ldmlBCP47:
                         case ldmlICU:
-                            tooOld = version.isOlderThan(CldrVersion.v1_7_2);
+                            tooOld = badLdmlICUVersions.contains(version);
                             break;
-                        case keyboard:
-                        case platform:
-                            tooOld = version.isOlderThan(CldrVersion.v22_1);
+                        case ldmlBCP47:
+                        case keyboard3:
+                            if (type.firstVersion != null) {
+                                tooOld = version.isOlderThan(CldrVersion.from(type.firstVersion));
+                            }
                             break;
                         default:
                             break;
@@ -1413,7 +1456,8 @@ public class TestBasic extends TestFmwkPlus {
                         continue;
                     } else {
                         errln(
-                                version
+                                "v"
+                                        + version
                                         + ": "
                                         + e.getClass().getSimpleName()
                                         + ", "
@@ -1444,6 +1488,19 @@ public class TestBasic extends TestFmwkPlus {
                                 continue;
                             }
                             Element newChild = newElement.getChildNamed(oldChild.getName());
+                            // skip certain items
+                            if (version.isOlderThan(CldrVersion.v1_6_1)
+                                    && newElement.getName().equals("zone")
+                                    && oldChild.getName().equals("usesMetazone")) {
+                                if (logKnownIssue(
+                                        "CLDR-17054",
+                                        "Breakage with items older than 1.6.1: "
+                                                + newElement.getName()
+                                                + " / "
+                                                + oldChild.getName())) {
+                                    continue;
+                                }
+                            }
 
                             if (knownChildExceptions.contains(
                                     Pair.of(newElement.getName(), oldChild.getName()))) {
@@ -1505,6 +1562,15 @@ public class TestBasic extends TestFmwkPlus {
             return;
         }
         for (File file : CLDRConfig.getInstance().getAllCLDRFilesEndingWith(".xml")) {
+            if (file.getParentFile().getName().equals("import")
+                    && file.getParentFile().getParentFile().getName().equals("keyboards")) {
+                return; // skip imports
+            }
+            if (file.getPath().contains("/keyboards/3.0/")
+                    && logKnownIssue(
+                            "CLDR-17574", "With v46, parsing issues for keyboard xml files")) {
+                continue;
+            }
             checkDtdComparatorFor(file, null);
         }
     }
@@ -1540,6 +1606,7 @@ public class TestBasic extends TestFmwkPlus {
             xfr.read(myHandler.fileName, -1, true);
             logln(myHandler.fileName);
         } catch (Exception e) {
+            e.printStackTrace();
             Throwable t = e;
             StringBuilder b = new StringBuilder();
             String indent = "";

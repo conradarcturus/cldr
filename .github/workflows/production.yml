@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repository (Custom Ref)
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.git-ref }}
           lfs: false
@@ -27,19 +27,19 @@ jobs:
         run: >
           echo "::set-output name=tag::$(env TZ=UTC date +'production/%Y-%m-%d-%H%Mz')"
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Cache local Maven repository
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('tools/**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Cache local npm repository
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -62,12 +62,12 @@ jobs:
         run: >
           zip tools/cldr-apps/target/cldr-apps.zip  -d  wlp/usr/servers/cldr/apps/expanded/\*
       - name: Upload cldr-apps.zip
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cldr-apps-server
           path: tools/cldr-apps/target/cldr-apps.zip
       - name: Create Release for Production
-        uses: ncipollo/release-action@v1.12.0
+        uses: ncipollo/release-action@v1.13.0
         with:
           commit: ${{ github.event.inputs.git-ref }}
           prerelease: true
@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download cldr-apps.zip
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: cldr-apps-server
     - name: Deploy to st

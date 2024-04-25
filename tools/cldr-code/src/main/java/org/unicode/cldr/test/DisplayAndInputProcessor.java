@@ -5,6 +5,7 @@ package org.unicode.cldr.test;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.TreeMultimap;
 import com.google.myanmartools.ZawgyiDetector;
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.text.Collator;
@@ -18,11 +19,13 @@ import com.ibm.icu.text.UnicodeSet;
 import com.ibm.icu.text.UnicodeSetIterator;
 import com.ibm.icu.util.Output;
 import com.ibm.icu.util.ULocale;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -68,15 +71,6 @@ public class DisplayAndInputProcessor {
 
     public static final UnicodeSet RTL =
             new UnicodeSet("[[:Bidi_Class=Arabic_Letter:][:Bidi_Class=Right_To_Left:]]").freeze();
-
-    public static final UnicodeSet TO_QUOTE =
-            new UnicodeSet(
-                            "[[:Cn:]"
-                                    + "[:Default_Ignorable_Code_Point:]"
-                                    + "[:patternwhitespace:]"
-                                    + "[:Me:][:Mn:]]" // add non-spacing marks
-                            )
-                    .freeze();
 
     public static final Pattern NUMBER_SEPARATOR_PATTERN =
             Pattern.compile("//ldml/numbers/symbols.*/(decimal|group)");
@@ -161,6 +155,16 @@ public class DisplayAndInputProcessor {
     // private static final Pattern SPACE_PLUS_NBSP_TO_NORMALIZE =
     // PatternCache.get("\\u0020+[\\u00A0\\u202F]+");
 
+    // NNBSP 202F among other horizontal spaces (includes 0020, 00A0, 2009, 202F, etc.)
+    private static final Pattern NNBSP_AMONG_OTHER_SPACES =
+            PatternCache.get("[\\h&&[^\\u202F]]+\\u202F\\h*|\\u202F\\h+");
+    // NBSP 00A0 among other horizontal spaces
+    private static final Pattern NBSP_AMONG_OTHER_SPACES =
+            PatternCache.get("[\\h&&[^\\u00A0]]+\\u00A0\\h*|\\u00A0\\h+");
+    // THIN SPACE 2009 among other horizontal spaces
+    private static final Pattern THIN_SPACE_AMONG_OTHER_SPACES =
+            PatternCache.get("[\\h&&[^\\u2009]]+\\u2009\\h*|\\u2009\\h+");
+
     private static final Pattern INITIAL_NBSP = PatternCache.get("^[\\u00A0\\u202F]+");
     private static final Pattern FINAL_NBSP = PatternCache.get("[\\u00A0\\u202F]+$");
 
@@ -186,6 +190,7 @@ public class DisplayAndInputProcessor {
     private static final CLDRLocale GERMAN_SWITZERLAND = CLDRLocale.getInstance("de_CH");
     private static final CLDRLocale SWISS_GERMAN = CLDRLocale.getInstance("gsw");
     private static final CLDRLocale FF_ADLAM = CLDRLocale.getInstance("ff_Adlm");
+    private static final CLDRLocale KASHMIRI = CLDRLocale.getInstance("ks");
     public static final Set<String> LANGUAGES_USING_MODIFIER_APOSTROPHE =
             new HashSet<>(
                     Arrays.asList(
@@ -228,6 +233,10 @@ public class DisplayAndInputProcessor {
     private static final char[][] KYRGYZ_CONVERSIONS = {{'ӊ', 'ң'}, {'Ӊ', 'Ң'}}; //  right modifier
 
     private static final char[][] URDU_PLUS_CONVERSIONS = {{'\u0643', '\u06A9'}}; //  wrong char
+
+    private static final char[][] KASHMIRI_CONVERSIONS = {
+        {'ۍ', 'ؠ'}
+    }; //  wrong char (see CLDR-16595)
 
     private static final ZawgyiDetector detector = new ZawgyiDetector();
     private static final Transliterator zawgyiUnicodeTransliterator =
@@ -604,6 +613,8 @@ public class DisplayAndInputProcessor {
             value = replaceChars(path, value, URDU_PLUS_CONVERSIONS, true);
         } else if (locale.childOf(FF_ADLAM) && !isUnicodeSet) {
             value = fixAdlamNasalization(value);
+        } else if (locale.childOf(KASHMIRI)) {
+            value = replaceChars(path, value, KASHMIRI_CONVERSIONS, false);
         }
         return value;
     }
@@ -686,7 +697,15 @@ public class DisplayAndInputProcessor {
      *
      * <p>For example, if the set is {"bear", "panda", "panda bear"} (annotation was "bear | panda |
      * panda bear"), then remove "panda bear", treating it as "covered" since the set already
-     * includes "panda" and "bear".
+     * includes "panda" and "bear". Also, for example, if the set is {"bear", "panda", "PANDA
+     * BEAR"}, then remove "PANDA BEAR" even though the casing differs.
+     *
+     * <p>Since casing is complex in many languages/scripts, this method does not attempt to
+     * recognize all occurrences of case-insensitive matching. Instead, it first checks for
+     * case-sensitive (exact) matching, then it checks for case-insensitive (loose) matching
+     * according to Locale.ROOT. The intended effect is only to remove an item like "PANDA BEAR" if
+     * both "panda" and "bear" are already present as individual items. The intended effect is never
+     * to modify the casing of any item that is already present.
      *
      * @param sorted the set from which items may be removed
      */
@@ -694,6 +713,10 @@ public class DisplayAndInputProcessor {
         // for now, just do single items
         HashSet<String> toRemove = new HashSet<>();
 
+        TreeSet<String> sortedLower = new TreeSet<>();
+        for (String item : sorted) {
+            sortedLower.add(item.toLowerCase(Locale.ROOT));
+        }
         for (String item : sorted) {
             List<String> list = SPLIT_SPACE.splitToList(item);
             if (list.size() < 2) {
@@ -701,9 +724,39 @@ public class DisplayAndInputProcessor {
             }
             if (sorted.containsAll(list)) {
                 toRemove.add(item);
+            } else {
+                List<String> listLower = new ArrayList<>();
+                for (String s : list) {
+                    listLower.add(s.toLowerCase(Locale.ROOT));
+                }
+                if (sortedLower.containsAll(listLower)) {
+                    toRemove.add(item);
+                }
             }
         }
         sorted.removeAll(toRemove);
+    }
+
+    /**
+     * Given a sorted list like "BEAR | Bear ｜ PANDA | Panda | panda"，filter out any items that
+     * duplicate other items aside from case, leaving only, for example, "BEAR | PANDA"
+     *
+     * @param sorted the set from which items may be removed
+     */
+    public static void filterKeywordsDifferingOnlyInCase(TreeSet<String> sorted) {
+        TreeMultimap<String, String> mapFromLower = TreeMultimap.create();
+        for (String item : sorted) {
+            mapFromLower.put(item.toLowerCase(), item);
+        }
+        TreeSet<String> toRetain = new TreeSet<>();
+        for (String lower : mapFromLower.keySet()) {
+            Set<String> variants = mapFromLower.get(lower);
+            for (String var : variants) {
+                toRetain.add(var);
+                break;
+            }
+        }
+        sorted.retainAll(toRetain);
     }
 
     private String displayUnicodeSet(String value) {
@@ -1018,10 +1071,6 @@ public class DisplayAndInputProcessor {
                 .replaceAll("$1" + ADLAM_NASALIZATION + "$2"); // replace quote with 𞥋
     }
 
-    static Pattern NEEDS_QUOTE1 = PatternCache.get("(\\s|$)([-\\}\\]\\&])()");
-    static Pattern NEEDS_QUOTE2 =
-            PatternCache.get("([^\\\\])([\\-\\{\\[\\&])(\\s)"); // ([^\\])([\\-\\{\\[])(\\s)
-
     public String getCleanedUnicodeSet(UnicodeSet exemplar, ExemplarType exemplarType) {
 
         if (rawFormatter == null) {
@@ -1256,6 +1305,14 @@ public class DisplayAndInputProcessor {
             value = PLACEHOLDER_SPACE_AFTER.matcher(value).replaceAll("}\u00A0"); // Regular NBSP
             value = PLACEHOLDER_SPACE_BEFORE.matcher(value).replaceAll("\u00A0{");
         }
+
+        // Finally, replace remaining space combinations with most restrictive type CLDR-17233
+        // If we have NNBSP U+202F in combination with other spaces, keep just it
+        value = NNBSP_AMONG_OTHER_SPACES.matcher(value).replaceAll("\u202F");
+        // Else if we have NBSP U+00A0 in combination with other spaces, keep just it
+        value = NBSP_AMONG_OTHER_SPACES.matcher(value).replaceAll("\u00A0");
+        // Else if we have THIN SPACE U+2009 in combination with other spaces, keep just it
+        value = THIN_SPACE_AMONG_OTHER_SPACES.matcher(value).replaceAll("\u2009");
 
         return value;
     }

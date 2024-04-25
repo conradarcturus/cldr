@@ -439,7 +439,7 @@ public class SurveyAjax extends HttpServlet {
                             mySession.userDidAction();
                             SurveyJSONWrapper r = newJSONStatus(request, sm);
                             r.put("what", what);
-                            new AdminPanel().getJson(r, request, response, sm);
+                            new AdminPanel().getJson(r, request, response);
                             send(r, out);
                         } else {
                             sendError(
@@ -1055,21 +1055,7 @@ public class SurveyAjax extends HttpServlet {
          * loc can have either - or _; normalize to _
          */
         loc = loc.replace('-', '_');
-        /*
-         * Support "USER" as a "wildcard" for locale name, replacing it with a locale suitable for the
-         * current user, or "fr" (French) as a fallback.
-         */
-        if ("USER".equals(loc) && sess != null && !sess.isEmpty()) {
-            loc = "fr"; // fallback
-            CookieSession.checkForExpiredSessions();
-            CookieSession mySession = CookieSession.retrieve(sess);
-            if (mySession.user != null) {
-                CLDRLocale exLoc = mySession.user.exampleLocale();
-                if (exLoc != null) {
-                    loc = exLoc.getBaseName();
-                }
-            }
-        }
+        loc = UserRegistry.substituteUserWildcardLocale(loc, sess);
         if (loc != null && !loc.isEmpty()) {
             ret = CLDRLocale.getInstance(loc);
         }
@@ -2669,7 +2655,7 @@ public class SurveyAjax extends HttpServlet {
                     checkResult.clear();
                     cc.check(base, checkResult, val0);
 
-                    DataPage page = DataPage.make(null, cs, loc, base, null);
+                    DataPage page = DataPage.make(null, cs, loc, base, null, null);
                     page.setUserForVotelist(cs.user);
 
                     DataPage.DataRow pvi = page.getDataRow(base);

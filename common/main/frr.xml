@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
@@ -484,7 +484,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<script type="Hebr" draft="unconfirmed">Hebreews</script>
 			<script type="Hira" draft="unconfirmed">Hiragana</script>
 			<script type="Hrkt" draft="unconfirmed">Japaans Silwenskraft</script>
-			<script type="Jamo" draft="unconfirmed">↑↑↑</script>
+			<script type="Jamo" draft="unconfirmed">Jamo</script>
 			<script type="Jpan" draft="unconfirmed">Japaans</script>
 			<script type="Kana" draft="unconfirmed">Katakana</script>
 			<script type="Khmr" draft="unconfirmed">Khmer</script>
@@ -507,7 +507,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<script type="Telu" draft="unconfirmed">Telugu</script>
 			<script type="Tfng" draft="unconfirmed">Tifinagh</script>
 			<script type="Thaa" draft="unconfirmed">Thaana</script>
-			<script type="Thai" draft="unconfirmed">↑↑↑</script>
+			<script type="Thai" draft="unconfirmed">Thai</script>
 			<script type="Tibt" draft="unconfirmed">Tibeetisk</script>
 			<script type="Vaii" draft="unconfirmed">Vai</script>
 			<script type="Yiii" draft="unconfirmed">Yi</script>
@@ -2525,9 +2525,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<zone type="America/Creston">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Yellowknife">
-				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Edmonton">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
 			</zone>
@@ -2546,28 +2543,16 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<zone type="America/Resolute">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Rainy_River">
-				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Rankin_Inlet">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Coral_Harbour">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Thunder_Bay">
-				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
-			</zone>
-			<zone type="America/Nipigon">
-				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Toronto">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Iqaluit">
-				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
-			</zone>
-			<zone type="America/Pangnirtung">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Moncton">
@@ -3377,17 +3362,11 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<zone type="Africa/Dar_es_Salaam">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
 			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity draft="unconfirmed">Uschhorod</exemplarCity>
-			</zone>
 			<zone type="Europe/Kiev">
 				<exemplarCity draft="unconfirmed">Kiew</exemplarCity>
 			</zone>
 			<zone type="Europe/Simferopol">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity draft="unconfirmed">Saporischja</exemplarCity>
 			</zone>
 			<zone type="Africa/Kampala">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
@@ -3402,9 +3381,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Nome">
-				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Pacific/Johnston">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Anchorage">
@@ -4042,11 +4018,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 					<daylight draft="unconfirmed">Lord Howe Somertidj</daylight>
 				</long>
 			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<standard draft="unconfirmed">Macquarie Eilun Tidj</standard>
-				</long>
-			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic draft="unconfirmed">Magadan Tidj</generic>
@@ -4084,13 +4055,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<metazone type="Mawson">
 				<long>
 					<standard draft="unconfirmed">Mawson Tidj</standard>
-				</long>
-			</metazone>
-			<metazone type="Mexico_Northwest">
-				<long>
-					<generic draft="unconfirmed">Nuurdwaast Meksiko Tidj</generic>
-					<standard draft="unconfirmed">Nuurdwaast Meksiko Standard Tidj</standard>
-					<daylight draft="unconfirmed">Nuurdwaast Meksiko Somertidj</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mexico_Pacific">
@@ -4523,7 +4487,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				</currencyFormat>
 			</currencyFormatLength>
 			<currencyPatternAppendISO draft="unconfirmed">↑↑↑</currencyPatternAppendISO>
-			<unitPattern count="other" draft="unconfirmed">↑↑↑</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="AED">
@@ -5226,9 +5190,14 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				<symbol draft="unconfirmed">↑↑↑</symbol>
 				<symbol alt="narrow" draft="unconfirmed">↑↑↑</symbol>
 			</currency>
-			<currency type="SLL">
+			<currency type="SLE">
 				<displayName draft="unconfirmed">Sierra Leones Leone</displayName>
 				<displayName count="other" draft="unconfirmed">Sierra Leones Leones</displayName>
+				<symbol draft="unconfirmed">↑↑↑</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName draft="unconfirmed">Sierra Leones Leone (1964—2022)</displayName>
+				<displayName count="other" draft="unconfirmed">Sierra Leones Leones (1964—2022)</displayName>
 				<symbol draft="unconfirmed">↑↑↑</symbol>
 			</currency>
 			<currency type="SOS">

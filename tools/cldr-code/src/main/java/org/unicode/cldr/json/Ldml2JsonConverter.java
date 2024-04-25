@@ -15,6 +15,7 @@ import com.ibm.icu.number.Precision;
 import com.ibm.icu.text.MessageFormat;
 import com.ibm.icu.util.NoUnit;
 import com.ibm.icu.util.ULocale;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -40,8 +42,31 @@ import org.unicode.cldr.draft.FileUtilities;
 import org.unicode.cldr.draft.ScriptMetadata;
 import org.unicode.cldr.draft.ScriptMetadata.Info;
 import org.unicode.cldr.tool.Option.Options;
-import org.unicode.cldr.util.*;
+import org.unicode.cldr.util.Annotations;
+import org.unicode.cldr.util.CLDRConfig;
+import org.unicode.cldr.util.CLDRFile;
 import org.unicode.cldr.util.CLDRFile.DraftStatus;
+import org.unicode.cldr.util.CLDRLocale;
+import org.unicode.cldr.util.CLDRPaths;
+import org.unicode.cldr.util.CLDRTool;
+import org.unicode.cldr.util.CLDRURLS;
+import org.unicode.cldr.util.CalculatedCoverageLevels;
+import org.unicode.cldr.util.CldrUtility;
+import org.unicode.cldr.util.CoverageInfo;
+import org.unicode.cldr.util.DtdData;
+import org.unicode.cldr.util.DtdType;
+import org.unicode.cldr.util.Factory;
+import org.unicode.cldr.util.FileCopier;
+import org.unicode.cldr.util.GlossonymConstructor;
+import org.unicode.cldr.util.Level;
+import org.unicode.cldr.util.LocaleIDParser;
+import org.unicode.cldr.util.Pair;
+import org.unicode.cldr.util.PatternCache;
+import org.unicode.cldr.util.StandardCodes;
+import org.unicode.cldr.util.SupplementalDataInfo;
+import org.unicode.cldr.util.Timer;
+import org.unicode.cldr.util.XMLSource;
+import org.unicode.cldr.util.XPathParts;
 
 /**
  * Utility methods to extract data from CLDR repository and export it in JSON format.
@@ -237,7 +262,15 @@ public class Ldml2JsonConverter {
                             'M',
                             "(true|false)",
                             "true",
-                            "Whether to include the -modern tier");
+                            "Whether to include the -modern tier")
+                    // Primarily useful for non-Maven build systems where CldrUtility.LICENSE may
+                    // not be available as it is put in place by pom.xml
+                    .add(
+                            "license-file",
+                            'L',
+                            ".*",
+                            "",
+                            "Override the license file included in the bundle");
 
     public static void main(String[] args) throws Exception {
         System.out.println(GEAR_ICON + " " + Ldml2JsonConverter.class.getName() + " options:");
@@ -288,7 +321,9 @@ public class Ldml2JsonConverter {
                         Boolean.parseBoolean(options.get("bcp47").getValue()),
                         Boolean.parseBoolean(options.get("bcp47-no-subtags").getValue()),
                         Boolean.parseBoolean(options.get("Modern").getValue()),
-                        Boolean.parseBoolean(options.get("Redundant").getValue()));
+                        Boolean.parseBoolean(options.get("Redundant").getValue()),
+                        Optional.ofNullable(options.get("license-file").getValue())
+                                .filter(s -> !s.isEmpty()));
 
         DraftStatus status = DraftStatus.valueOf(options.get("draftstatus").getValue());
         l2jc.processDirectory(runType, status);
@@ -331,6 +366,7 @@ public class Ldml2JsonConverter {
     private final String pkgVersion;
     private final boolean strictBcp47;
     private final boolean writeModernPackage;
+    private final Optional<String> licenseFile;
     private final boolean skipBcp47LocalesWithSubtags;
     private LdmlConfigFileReader configFileReader;
 
@@ -348,7 +384,8 @@ public class Ldml2JsonConverter {
             boolean strictBcp47,
             boolean skipBcp47LocalesWithSubtags,
             boolean writeModernPackage,
-            boolean includeRedundant) {
+            boolean includeRedundant,
+            Optional<String> licenseFile) {
         this.writeModernPackage = writeModernPackage;
         this.strictBcp47 = strictBcp47;
         this.skipBcp47LocalesWithSubtags = strictBcp47 && skipBcp47LocalesWithSubtags;
@@ -376,6 +413,7 @@ public class Ldml2JsonConverter {
         this.sections = configFileReader.getSections();
         this.packages = new TreeSet<>();
         this.includeRedundant = includeRedundant;
+        this.licenseFile = licenseFile;
     }
 
     /**
@@ -1218,11 +1256,11 @@ public class Ldml2JsonConverter {
                 outf.println();
             } else if (packageName.endsWith(MODERN_TIER_SUFFIX)) {
                 outf.println(
-                        "This package contains only the set of locales listed as modern coverage. See also the `"
+                        "**Deprecated** This package contains only the set of locales listed as modern coverage. Use `"
                                 + CLDR_PKG_PREFIX
                                 + basePackageName
                                 + FULL_TIER_SUFFIX
-                                + "` package.");
+                                + "` and locale coverage data instead. The -modern packages are scheduled to be removed in v46, see [CLDR-16465](https://unicode-org.atlassian.net/browse/CLDR-16465).");
                 outf.println();
             }
             outf.println();
@@ -1231,8 +1269,15 @@ public class Ldml2JsonConverter {
             writeReadmeSection(outf);
         }
         try (PrintWriter outf =
-                FileUtilities.openUTF8Writer(outputDir + "/" + packageName, "LICENSE"); ) {
-            FileCopier.copy(CldrUtility.getUTF8Data(CldrUtility.LICENSE), outf);
+                FileUtilities.openUTF8Writer(
+                        outputDir + "/" + packageName, CldrUtility.LICENSE); ) {
+            if (licenseFile.isPresent()) {
+                try (BufferedReader br = FileUtilities.openUTF8Reader("", licenseFile.get()); ) {
+                    FileCopier.copy(br, outf);
+                }
+            } else {
+                FileCopier.copy(CldrUtility.getUTF8Data(CldrUtility.LICENSE), outf);
+            }
         }
     }
 
@@ -1311,10 +1356,8 @@ public class Ldml2JsonConverter {
 
         final String basePackageName = getBasePackageName(packageName);
         String description = configFileReader.getPackageDescriptions().get(basePackageName);
-        if (packageName.endsWith(FULL_TIER_SUFFIX)) {
-            description = description + " (all locales)";
-        } else if (packageName.endsWith(MODERN_TIER_SUFFIX)) {
-            description = description + " (modern coverage locales)";
+        if (packageName.endsWith(MODERN_TIER_SUFFIX)) {
+            description = description + " (modern only: deprecated)";
         }
         obj.addProperty("description", description);
 
@@ -1340,6 +1383,10 @@ public class Ldml2JsonConverter {
 
         obj.addProperty("license", CLDRURLS.UNICODE_SPDX);
         obj.addProperty("bugs", CLDRURLS.CLDR_NEWTICKET_URL);
+
+        final SupplementalDataInfo sdi = CLDRConfig.getInstance().getSupplementalDataInfo();
+        obj.addProperty("cldrVersion", sdi.getCldrVersionString());
+        obj.addProperty("unicodeVersion", sdi.getUnicodeVersionString());
 
         outf.println(gson.toJson(obj));
         outf.close();
@@ -1527,7 +1574,7 @@ public class Ldml2JsonConverter {
             } else {
                 {
                     JsonObject packageEntry = new JsonObject();
-                    packageEntry.addProperty("description", e.getValue() + " (basic)");
+                    packageEntry.addProperty("description", e.getValue());
                     packageEntry.addProperty("tier", "full");
                     packageEntry.addProperty("name", CLDR_PKG_PREFIX + baseName + FULL_TIER_SUFFIX);
                     packages.add(packageEntry);
@@ -1537,17 +1584,7 @@ public class Ldml2JsonConverter {
                 }
                 {
                     JsonObject packageEntry = new JsonObject();
-                    packageEntry.addProperty("description", e.getValue() + " (basic)");
-                    packageEntry.addProperty("tier", "full");
-                    packageEntry.addProperty("name", CLDR_PKG_PREFIX + baseName + FULL_TIER_SUFFIX);
-                    packages.add(packageEntry);
-                    pkgsToDesc.put(
-                            packageEntry.get("name").getAsString(),
-                            packageEntry.get("description").getAsString());
-                }
-                {
-                    JsonObject packageEntry = new JsonObject();
-                    packageEntry.addProperty("description", e.getValue() + " (modern)");
+                    packageEntry.addProperty("description", e.getValue() + " modern (deprecated)");
                     packageEntry.addProperty("tier", "modern");
                     packageEntry.addProperty(
                             "name", CLDR_PKG_PREFIX + baseName + MODERN_TIER_SUFFIX);
@@ -1562,6 +1599,10 @@ public class Ldml2JsonConverter {
         for (Map.Entry<String, String> e : pkgsToDesc.entrySet()) {
             pkgs.println("### [" + e.getKey() + "](./cldr-json/" + e.getKey() + "/)");
             pkgs.println();
+            if (e.getKey().contains("-modern")) {
+                pkgs.println(
+                        " - **Note: Deprecated** see [CLDR-16465](https://unicode-org.atlassian.net/browse/CLDR-16465).");
+            }
             pkgs.println(" - " + e.getValue());
             pkgs.println(" - " + getNpmBadge(e.getKey()));
             pkgs.println();
@@ -1814,7 +1855,30 @@ public class Ldml2JsonConverter {
                     o.getAsJsonObject().addProperty(attrAsKey, v);
                 } // else, omit
             } else {
-                o.getAsJsonObject().addProperty(attrAsKey, value);
+                // hack for localeRules
+                if (attrAsKey.equals("_localeRules")) {
+                    // find the _localeRules object, add if it didn't exist
+                    JsonElement localeRules = out.getAsJsonObject().get(attrAsKey);
+                    if (localeRules == null) {
+                        localeRules = new JsonObject();
+                        out.getAsJsonObject().add(attrAsKey, localeRules);
+                    }
+                    // find the sibling object, add if it did't exist ( this will be parentLocale or
+                    // collations etc.)
+                    JsonElement sibling = localeRules.getAsJsonObject().get(name);
+                    if (sibling == null) {
+                        sibling = new JsonObject();
+                        localeRules.getAsJsonObject().add(name, sibling);
+                    }
+                    // get the 'parent' attribute, which wil be the value
+                    final String parent =
+                            XPathParts.getFrozenInstance(node.getUntransformedPath())
+                                    .getAttributeValue(-1, "parent");
+                    // finally, we add something like "nonLikelyScript: und"
+                    sibling.getAsJsonObject().addProperty(value, parent);
+                } else {
+                    o.getAsJsonObject().addProperty(attrAsKey, value);
+                }
             }
         }
         return o;
@@ -2168,7 +2232,7 @@ public class Ldml2JsonConverter {
      */
     private String escapeValue(String value) {
         Matcher match = escapePattern.matcher(value);
-        String ret = match.replaceAll("\\\\\\\\");
+        String ret = match.replaceAll("\\\\");
         return ret.replace("\n", " ").replace("\t", " ");
     }
 
@@ -2219,9 +2283,16 @@ public class Ldml2JsonConverter {
             // out.name(objName);
             if (value.isEmpty()) {
                 if (valueIsSpacesepArray) {
+                    // empty value, output as empty space-sep array: []
                     out.getAsJsonObject().add(objName, new JsonArray());
                 } else {
-                    out.getAsJsonObject().add(objName, new JsonObject());
+                    // empty value.
+                    if (objName.endsWith("SpaceReplacement")) { // foreignSpaceReplacement or
+                        // nativeSpaceReplacement
+                        out.getAsJsonObject().addProperty(objName, "");
+                    } else {
+                        out.getAsJsonObject().add(objName, new JsonObject());
+                    }
                 }
             } else if (type == RunType.annotations || type == RunType.annotationsDerived) {
                 JsonArray a = new JsonArray();
@@ -2264,7 +2335,9 @@ public class Ldml2JsonConverter {
             String attrValue = escapeValue(rawAttrValue);
             // attribute is prefixed with "_" when being used as key.
             String attrAsKey = "_" + key;
-            logger.finest(() -> "Leaf Node: " + node.getUntransformedPath() + " ." + key);
+            if (node != null) {
+                logger.finest(() -> "Leaf Node: " + node.getUntransformedPath() + " ." + key);
+            }
             if (LdmlConvertRules.ATTRVALUE_AS_ARRAY_SET.contains(key)) {
                 String[] strings = attrValue.trim().split("\\s+");
                 JsonArray a = new JsonArray();

@@ -1,7 +1,9 @@
 package org.unicode.cldr.util;
 
 import com.google.common.collect.ImmutableSet;
+import java.io.File;
 import java.lang.annotation.Annotation;
+import java.util.Collections;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,20 +31,50 @@ public enum DtdType {
             "transforms",
             "validity"),
     ldmlBCP47("common/dtd/ldmlBCP47.dtd", "1.7.2", null, "bcp47"),
-    keyboard("keyboards/dtd/ldmlKeyboard.dtd", "22.1", null, "../keyboards"),
-    platform("keyboards/dtd/ldmlPlatform.dtd", "22.1", null, "../keyboards");
+    // keyboard 3.0
+    keyboard3("keyboards/dtd/ldmlKeyboard3.dtd", "45.0", null, "../keyboards/3.0"),
+    keyboardTest3("keyboards/dtd/ldmlKeyboardTest3.dtd", "45.0", null, "../keyboards/test");
+
     public static final Set<DtdType> STANDARD_SET =
-            ImmutableSet.of(ldmlBCP47, supplementalData, ldml, keyboard, platform);
+            ImmutableSet.of(ldmlBCP47, supplementalData, ldml, keyboard3);
 
     static Pattern FIRST_ELEMENT = PatternCache.get("//([^/\\[]*)");
 
     public final String dtdPath;
+    /**
+     * The actual root type used with the DTD. Used for ldmlICU.dtd which is used with the <ldml>
+     * root type. This mechanism isn't used for keyboard2, which simply has a different element
+     * name, but is not used with the prior DTD.
+     */
     public final DtdType rootType;
+
     public final String firstVersion;
     public final Set<String> directories;
 
+    private final DtdStatus status;
+
+    /** Get the ststus, whether this is an active DTD or not */
+    public DtdStatus getStatus() {
+        return status;
+    }
+
+    public enum DtdStatus {
+        /** DTD active (default) */
+        active,
+        /** DTD no longer used */
+        removed,
+    };
+
     private DtdType(String dtdPath) {
         this(dtdPath, null, null);
+    }
+
+    private DtdType(DtdStatus status, String sinceVersion) {
+        this.directories = Collections.emptySet();
+        this.dtdPath = null;
+        this.rootType = this;
+        this.firstVersion = sinceVersion;
+        this.status = status;
     }
 
     private DtdType(String dtdPath, DtdType realType) {
@@ -54,12 +86,20 @@ public enum DtdType {
         this.rootType = realType == null ? this : realType;
         this.firstVersion = firstVersion;
         this.directories = ImmutableSet.copyOf(directories);
+        this.status = DtdStatus.active;
     }
 
     public static DtdType fromPath(String elementOrPath) {
         Matcher m = FIRST_ELEMENT.matcher(elementOrPath);
         m.lookingAt();
-        return DtdType.valueOf(m.group(1));
+        return fromElement(m.group(1));
+    }
+
+    /**
+     * @return the DtdType, given an element name
+     */
+    public static DtdType fromElement(String element) {
+        return DtdType.valueOf(element);
     }
 
     /**
@@ -88,7 +128,7 @@ public enum DtdType {
 
         return "<?xml version='1.0' encoding='UTF-8' ?>\n"
                 + "<!DOCTYPE "
-                + this
+                + rootElement()
                 + " SYSTEM '../../"
                 + dtdPath
                 + "'>\n" // "common/dtd/ldmlSupplemental.dtd"
@@ -97,11 +137,37 @@ public enum DtdType {
                 + gline
                 + " -->\n"
                 + "<"
-                + this
+                + rootElement()
                 + ">\n";
+    }
+
+    /**
+     * @return the root element for this DTD Type. Usually matches the DTD name.
+     */
+    public String rootElement() {
+        if (rootType != null) {
+            return rootType.name();
+        } else {
+            return name();
+        }
     }
 
     public String getXsdPath() {
         return dtdPath.replaceAll("\\.dtd$", ".xsd");
+    }
+
+    /** The xmlns name for this dtd type */
+    public String getNsUrl() {
+        return CLDRURLS.CLDR_CURVER_BASE + "/" + name();
+    }
+
+    /** The current version DTD as a URI */
+    String getDtdUri() {
+        return new File(CLDRPaths.BASE_DIRECTORY, dtdPath).toURI().toString();
+    }
+
+    /** DOCTYPE for this DTD (current version) */
+    String getDoctype() {
+        return "<!DOCTYPE " + name() + " SYSTEM \"" + getDtdUri() + "\">";
     }
 }

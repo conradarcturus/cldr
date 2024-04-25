@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 
 Proper interpretation of these files requires synthesis of missing items, as per
@@ -873,8 +873,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 		<annotation cp="💏" type="tts" draft="unconfirmed">baxo</annotation>
 		<annotation cp="💑" draft="unconfirmed">cobbia con cheucobbia co-o cheu</annotation>
 		<annotation cp="💑" type="tts" draft="unconfirmed">cobbia con cheucobbia co-o cheu</annotation>
-		<annotation cp="👪" draft="unconfirmed">famiggia</annotation>
-		<annotation cp="👪" type="tts" draft="unconfirmed">famiggia</annotation>
 		<annotation cp="🗣" draft="unconfirmed">testa ch’a parla</annotation>
 		<annotation cp="🗣" type="tts" draft="unconfirmed">testa ch’a parla</annotation>
 		<annotation cp="👤" draft="unconfirmed">profî de busto</annotation>
@@ -883,6 +881,8 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 		<annotation cp="👥" type="tts" draft="unconfirmed">profî de doî busti</annotation>
 		<annotation cp="🫂" draft="unconfirmed">persoñe che s’abbrassan</annotation>
 		<annotation cp="🫂" type="tts" draft="unconfirmed">persoñe che s’abbrassan</annotation>
+		<annotation cp="👪" draft="unconfirmed">famiggia</annotation>
+		<annotation cp="👪" type="tts" draft="unconfirmed">famiggia</annotation>
 		<annotation cp="👣" draft="unconfirmed">impronte de pê</annotation>
 		<annotation cp="👣" type="tts" draft="unconfirmed">impronte de pê</annotation>
 		<annotation cp="🦰" draft="unconfirmed">cavelli rosci</annotation>

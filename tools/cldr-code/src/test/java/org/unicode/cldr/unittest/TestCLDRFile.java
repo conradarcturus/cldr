@@ -225,6 +225,9 @@ public class TestCLDRFile extends TestFmwk {
                 final CLDRFile cldrFile = fullCldrFactory.make(locale, true);
                 Set<String> sorted2 = new TreeSet<>(cldrFile.getExtraPaths());
                 for (String path : sorted2) {
+                    if (path.contains("speed-beaufort")) {
+                        continue; // special case
+                    }
                     if (path.contains("/gender")
                             || path.contains("@gender")
                             || path.contains("@case")) {
@@ -320,7 +323,7 @@ public class TestCLDRFile extends TestFmwk {
                             || path.startsWith("//ldml/contextTransforms/contextTransformUsage")
                             || path.contains("[@alt=\"variant\"]")
                             || path.contains("[@alt=\"formal\"]")
-                            || path.contains("[@type=\"pressure-gasoline-equivalent\"]")
+                            || path.contains("[@type=\"pressure-gasoline-energy-density\"]")
                             || (path.contains("dayPeriod[@type=")
                                     && (path.endsWith("1\"]")
                                             || path.endsWith("\"am\"]")
@@ -795,12 +798,6 @@ public class TestCLDRFile extends TestFmwk {
                 }
                 String likely = likelySubtags.minimize(loc);
                 if (!localesToDirs.containsKey(parent)) {
-                    //                    if (ldmlDir == LdmlDir.rbnf && source == Source.common &&
-                    //                        parent.equals("en_001") && loc.equals("en_IN") &&
-                    //                        logKnownIssue("cldrbug:10456", "Missing parent
-                    // (en_001) for en_IN in common/rbnf")) {
-                    //                            continue;
-                    //                    }
                     errln(
                             "Missing parent ("
                                     + parent

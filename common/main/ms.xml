@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 
 Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/ for derived annotations.
@@ -522,13 +522,13 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Adlm">Adlam</script>
 			<script type="Aghb" draft="contributed">Kaukasia Albania</script>
 			<script type="Ahom" draft="contributed">↑↑↑</script>
-			<script type="Arab">↑↑↑</script>
+			<script type="Arab">Arab</script>
 			<script type="Arab" alt="variant">Perso-Arab</script>
 			<script type="Aran">Nastaliq</script>
 			<script type="Armi" draft="contributed">Aramia Imperial</script>
 			<script type="Armn">Armenia</script>
 			<script type="Avst" draft="contributed">Avestan</script>
-			<script type="Bali" draft="contributed">↑↑↑</script>
+			<script type="Bali" draft="contributed">Bali</script>
 			<script type="Bass" draft="contributed">Bassa Vah</script>
 			<script type="Batk" draft="contributed">Batak</script>
 			<script type="Beng">Benggala</script>
@@ -541,7 +541,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Cakm">Chakma</script>
 			<script type="Cans">Suku Kata Orang Asli Kanada Bersatu</script>
 			<script type="Cari" draft="contributed">Carian</script>
-			<script type="Cham" draft="contributed">↑↑↑</script>
+			<script type="Cham" draft="contributed">Cham</script>
 			<script type="Cher">Cherokee</script>
 			<script type="Copt" draft="contributed">Coptic</script>
 			<script type="Cprt" draft="contributed">Cypriot</script>
@@ -580,7 +580,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Hrkt">Ejaan sukuan Jepun</script>
 			<script type="Hung" draft="contributed">Hungary Lama</script>
 			<script type="Ital" draft="contributed">Italik Lama</script>
-			<script type="Jamo">↑↑↑</script>
+			<script type="Jamo">Jamo</script>
 			<script type="Java" draft="contributed">Jawa</script>
 			<script type="Jpan">Jepun</script>
 			<script type="Kali" draft="contributed">Kayah Li</script>
@@ -611,7 +611,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Merc" draft="contributed">Kursif Meroitic</script>
 			<script type="Mero" draft="contributed">Meroitic</script>
 			<script type="Mlym">Malayalam</script>
-			<script type="Modi" draft="contributed">↑↑↑</script>
+			<script type="Modi" draft="contributed">Modi</script>
 			<script type="Mong">Mongolia</script>
 			<script type="Mroo" draft="contributed">Mro</script>
 			<script type="Mtei">Meitei Mayek</script>
@@ -620,7 +620,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Nand" draft="contributed">Nandinagari</script>
 			<script type="Narb" draft="contributed">Arab Utara Lama</script>
 			<script type="Nbat" draft="contributed">Nabataean</script>
-			<script type="Newa" draft="contributed">↑↑↑</script>
+			<script type="Newa" draft="contributed">Newa</script>
 			<script type="Nkoo">N’ko</script>
 			<script type="Nshu" draft="contributed">Nushu</script>
 			<script type="Ogam" draft="contributed">Ogham</script>
@@ -669,7 +669,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Tfng">Tifinagh</script>
 			<script type="Tglg" draft="contributed">Tagalog</script>
 			<script type="Thaa">Thaana</script>
-			<script type="Thai">↑↑↑</script>
+			<script type="Thai">Thai</script>
 			<script type="Tibt">Tibet</script>
 			<script type="Tirh" draft="contributed">Tirhuta</script>
 			<script type="Ugar" draft="contributed">Ugaritic</script>
@@ -1168,7 +1168,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<type key="collation" type="phonebook">Aturan Isih Buku Telefon</type>
 			<type key="collation" type="phonetic">Urutan Isih Fonetik</type>
 			<type key="collation" type="pinyin">Aturan Isih Pinyin</type>
-			<type key="collation" type="reformed">Aturan Isih Pembaharuan</type>
 			<type key="collation" type="search">Carian Tujuan Umum</type>
 			<type key="collation" type="searchjl">Cari Mengikut Konsonan Awal Hangul</type>
 			<type key="collation" type="standard">Tertib Isih Standard</type>
@@ -4654,9 +4653,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<regionFormat type="daylight">Waktu Siang {0}</regionFormat>
 			<regionFormat type="standard">Waktu Piawai {0}</regionFormat>
 			<fallbackFormat>↑↑↑</fallbackFormat>
-			<zone type="America/Santa_Isabel">
-				<exemplarCity>Santa Isabel</exemplarCity>
-			</zone>
 			<zone type="Etc/UTC">
 				<long>
 					<standard>Waktu Universal Selaras</standard>
@@ -4781,9 +4777,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			</zone>
 			<zone type="Australia/Melbourne">
 				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Australia/Currie">
-				<exemplarCity>Currie</exemplarCity>
 			</zone>
 			<zone type="Australia/Hobart">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -4938,9 +4931,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="America/Creston">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Yellowknife">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Edmonton">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
@@ -4959,28 +4949,16 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="America/Resolute">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Rainy_River">
-				<exemplarCity>Sungai Rainy</exemplarCity>
-			</zone>
 			<zone type="America/Rankin_Inlet">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Coral_Harbour">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Thunder_Bay">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="America/Nipigon">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Toronto">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Iqaluit">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="America/Pangnirtung">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Moncton">
@@ -5796,16 +5774,10 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="Africa/Dar_es_Salaam">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="Europe/Kiev">
 				<exemplarCity>Kiev</exemplarCity>
 			</zone>
 			<zone type="Europe/Simferopol">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="Africa/Kampala">
@@ -5825,9 +5797,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			</zone>
 			<zone type="Pacific/Honolulu">
 				<exemplarCity>Honolulu</exemplarCity>
-			</zone>
-			<zone type="Pacific/Johnston">
-				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Anchorage">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -6516,11 +6485,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 					<daylight draft="contributed">Waktu Musim Panas Macao</daylight>
 				</long>
 			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<standard>Waktu Pulau Macquarie</standard>
-				</long>
-			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>Waktu Magadan</generic>
@@ -6561,13 +6525,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<metazone type="Mawson">
 				<long>
 					<standard>Waktu Mawson</standard>
-				</long>
-			</metazone>
-			<metazone type="Mexico_Northwest">
-				<long>
-					<generic>Waktu Barat Laut Mexico</generic>
-					<standard>Waktu Piawai Barat Laut Mexico</standard>
-					<daylight>Waktu Siang Barat Laut Mexico</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mexico_Pacific">
@@ -7068,7 +7025,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 				</currencyFormat>
 			</currencyFormatLength>
 			<currencyPatternAppendISO>↑↑↑</currencyPatternAppendISO>
-			<unitPattern count="other">↑↑↑</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ADP">
@@ -8083,8 +8040,13 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<currency type="SKK">
 				<symbol draft="contributed">↑↑↑</symbol>
 			</currency>
-			<currency type="SLL">
+			<currency type="SLE">
 				<displayName>Leone Sierra Leone</displayName>
+				<displayName count="other">↑↑↑</displayName>
+				<symbol>↑↑↑</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName>Leone Sierra Leone (1964—2022)</displayName>
 				<displayName count="other">↑↑↑</displayName>
 				<symbol>↑↑↑</symbol>
 			</currency>
@@ -11322,7 +11284,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 		<nameOrderLocales order="surnameFirst">↑↑↑</nameOrderLocales>
 		<parameterDefault parameter="formality">↑↑↑</parameterDefault>
 		<parameterDefault parameter="length">↑↑↑</parameterDefault>
-		<nativeSpaceReplacement>↑↑↑</nativeSpaceReplacement>
+		<nativeSpaceReplacement xml:space="preserve">↑↑↑</nativeSpaceReplacement>
 		<foreignSpaceReplacement xml:space="preserve">↑↑↑</foreignSpaceReplacement>
 		<initialPattern type="initial">↑↑↑</initialPattern>
 		<initialPattern type="initialSequence">↑↑↑</initialPattern>

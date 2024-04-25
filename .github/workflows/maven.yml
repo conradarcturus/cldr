@@ -16,23 +16,23 @@ jobs:
     steps:
       # since we have to checkout all branches, cache here
       - name: Cache .git
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .git
-          key: git-${{ github.base_ref }}-${{ github.head_ref }}
+          key: git-${{ github.base_ref }}-${{ github.sha }}
           restore-keys: |
-            git-${{ github.base_ref }}-${{ github.head_ref }}
+            git-${{ github.base_ref }}-${{ github.sha }}
             git-${{ github.base_ref }}
             git-
       - name: Checkout CLDR
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: false
           fetch-depth: 0  # fetch all branches so that Spotless can resolve `origin/main`
       - name: Lint GitHub Actions
         run: npx yaml-lint .github/workflows/*.yml
       - name: Cache local Maven repository
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-mavenspotless-${{ hashFiles('tools/**/pom.xml') }}
@@ -44,32 +44,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: false
           fetch-depth: 0  # Needed for cldr-archive
         if: github.event.inputs.git-ref == ''
       - name: Clone Repository (manual ref)
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: false
           fetch-depth: 0  # Needed for cldr-archive
           ref: ${{ github.event.inputs.git-ref }}
         if: github.event.inputs.git-ref != ''
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Cache local Maven repository
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('tools/**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Cache local npm repository
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -77,7 +77,7 @@ jobs:
             ${{ runner.os }}-node-
             node-
       - name: Cache webpack
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: tools/cldr-apps/target/webpack_cache
           key: ${{ runner.os }}-webpack-${{ hashFiles('tools/cldr-apps/package*') }}-${{ hashFiles('tools/cldr-apps/src/**') }}
@@ -103,12 +103,12 @@ jobs:
         run: >
           zip tools/cldr-apps/target/cldr-apps.zip  -d  wlp/usr/servers/cldr/apps/expanded/\*
       - name: Upload cldr-apps.zip
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cldr-apps-server
           path: tools/cldr-apps/target/cldr-apps.zip
       - name: Upload cldr-code.jar
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cldr-code
           path: tools/cldr-code/target/cldr-code.jar
@@ -125,6 +125,20 @@ jobs:
           exec:java -Dexec.mainClass=org.unicode.cldr.util.XMLValidator
           -Dexec.cleanupDaemonThreads=false
           -Dexec.args="-q --schema=common/dtd/ldml.xsd  common/main"
+          || (echo 'Schema failed, rerun GenerateDtd' ; exit 0)
+      - name: Keyboard Schema Check
+        run: >
+          mvn -s .github/workflows/mvn-settings.xml --file tools/pom.xml -pl cldr-code
+          exec:java -Dexec.mainClass=org.unicode.cldr.util.XMLValidator
+          -Dexec.cleanupDaemonThreads=false
+          -Dexec.args="--schema=keyboards/dtd/ldmlKeyboard.xsd keyboards/3.0"
+          || (echo 'Schema failed, rerun GenerateDtd' ; exit 0)
+      - name: Keyboard Test Schema Check
+        run: >
+          mvn -s .github/workflows/mvn-settings.xml --file tools/pom.xml -pl cldr-code
+          exec:java -Dexec.mainClass=org.unicode.cldr.util.XMLValidator
+          -Dexec.cleanupDaemonThreads=false
+          -Dexec.args="--schema=keyboards/dtd/ldmlKeyboardTest.xsd keyboards/test"
           || (echo 'Schema failed, rerun GenerateDtd' ; exit 0)
       - name: Setup MySQL
         run: |
@@ -145,23 +159,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: false
         if: github.event.inputs.git-ref == ''
       - name: Clone Repository (manual ref)
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           lfs: false
           ref: ${{ github.event.inputs.git-ref }}
         if: github.event.inputs.git-ref != ''
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Cache local Maven repository
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-mavencheck-${{ hashFiles('tools/**/pom.xml') }}
@@ -184,7 +198,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download cldr-apps.zip
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: cldr-apps-server
     - name: Deploy to cldr-smoke

@@ -1,8 +1,14 @@
 package org.unicode.cldr.web;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
@@ -11,8 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
+import org.unicode.cldr.util.CLDRURLS;
 import org.unicode.cldr.util.CldrUtility;
-import org.unicode.cldr.util.VettingViewer;
 
 public class SurveyTool extends HttpServlet {
     static final Logger logger = SurveyLog.forClass(SurveyTool.class);
@@ -95,7 +101,7 @@ public class SurveyTool extends HttpServlet {
         out.write("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>\n");
         out.write("<title>CLDR Survey Tool | Starting</title>\n");
         includeCss(request, out);
-        out.write(VettingViewer.getHeaderStyles() + "\n");
+        out.write(CLDRURLS.getVettingViewerHeaderStyles() + "\n");
         try {
             includeJavaScript(request, out);
         } catch (JSONException e) {
@@ -173,7 +179,7 @@ public class SurveyTool extends HttpServlet {
         out.write("<meta name='gigabot' content='nofollow'>\n");
         out.write(FAVICON_LINK);
         includeCss(request, out);
-        out.write(VettingViewer.getHeaderStyles() + "\n");
+        out.write(CLDRURLS.getVettingViewerHeaderStyles() + "\n");
         try {
             includeJavaScript(request, out);
         } catch (JSONException e) {
@@ -220,6 +226,34 @@ public class SurveyTool extends HttpServlet {
                         + ".css' />\n");
     }
 
+    private static final String DD_CLIENT_TOKEN = System.getenv("DD_CLIENT_TOKEN");
+    private static final String DD_CLIENT_APPID = System.getenv("DD_CLIENT_APPID");
+    private static final String DD_GIT_COMMIT_SHA = System.getenv("DD_GIT_COMMIT_SHA");
+    private static final String DD_ENV = System.getProperty("dd.env", "");
+
+    /** if DD_CLIENT_TOKEN is set, set these variables so index.js can pick them up. */
+    public static void includeMonitoring(Writer out) throws IOException {
+        if (DD_CLIENT_TOKEN != null && !DD_CLIENT_TOKEN.isEmpty()) {
+            out.write(
+                    String.format(
+                            "<script>\n"
+                                    + "window.dataDogClientToken='%s';\n"
+                                    + "window.dataDogAppId='%s';\n"
+                                    + "window.dataDogEnv='%s';\n"
+                                    + "window.dataDogSha='%s';\n"
+                                    + "</script>\n",
+                            DD_CLIENT_TOKEN, DD_CLIENT_APPID, DD_ENV, DD_GIT_COMMIT_SHA));
+        } else {
+            out.write("<script>window.dataDogClientToken='';</script>\n");
+        }
+    }
+
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    private final class STManifest {
+        public String jsfiles[];
+    }
+
     /**
      * Write the script tags for Survey Tool JavaScript files
      *
@@ -230,11 +264,24 @@ public class SurveyTool extends HttpServlet {
      */
     public static void includeJavaScript(HttpServletRequest request, Writer out)
             throws IOException, JSONException {
-        // Load the big bundle
-        out.write(
-                "<script src=\"dist/bundle"
-                        + getCacheBustingExtension(request)
-                        + ".js\"></script>\n");
+        includeMonitoring(out);
+
+        // use WebPack-built manifest.json to include all chunks.
+        // ideally this would all come from a static .html file built by WebPack.
+        // TODO https://unicode-org.atlassian.net/browse/CLDR-17353
+        try (final InputStream is =
+                        request.getServletContext().getResourceAsStream("dist/manifest.json");
+                final Reader r = new InputStreamReader(is, StandardCharsets.UTF_8); ) {
+            for (final String f : gson.fromJson(r, STManifest.class).jsfiles) {
+                out.write(
+                        "<script src=\""
+                                + request.getContextPath()
+                                + "/dist/"
+                                + f.toString()
+                                + "\"></script>\n");
+            }
+        }
+
         includeJqueryJavaScript(request, out);
         includeCldrJavaScript(request, out);
     }

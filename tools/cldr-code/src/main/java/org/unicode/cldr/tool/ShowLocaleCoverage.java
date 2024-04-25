@@ -2,6 +2,7 @@ package org.unicode.cldr.tool;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Comparators;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -65,8 +67,10 @@ import org.unicode.cldr.util.VettingViewer.MissingStatus;
 public class ShowLocaleCoverage {
 
     private static final String TSV_BASE =
-            "https://github.com/unicode-org/cldr-staging/blob/main/docs/charts/43/tsv/";
-    private static final Splitter LF_SPLITTER = Splitter.on('\n');
+            "https://github.com/unicode-org/cldr-staging/blob/main/docs/charts/"
+                    + ToolConstants.CHART_VI.getVersionString(1, 2)
+                    + "/tsv/";
+    public static final Splitter LF_SPLITTER = Splitter.on('\n');
 
     // thresholds for measuring Level attainment
     private static final double BASIC_THRESHOLD = 1;
@@ -108,7 +112,7 @@ public class ShowLocaleCoverage {
                     + "# https://cldr.unicode.org/index/cldr-spec/coverage-levels.\n"
                     + "\n";
     private static final String TSV_MISSING_BASIC_HEADER =
-            "#Locale\tProv.\tUnconf.\tMissing\tPath*";
+            "#Locale\tProv.\tUnconf.\tMissing\tPath*\tAttributes";
     private static final String TSV_MISSING_COUNTS_HEADER =
             "#Locale\tTargetLevel\t№ Found\t№ Unconfirmed\t№ Missing";
 
@@ -175,9 +179,12 @@ public class ShowLocaleCoverage {
         int missing;
         int provisional;
         int unconfirmed;
+        Set<List<String>> values =
+                new TreeSet<>(Comparators.lexicographical(Comparator.<String>naturalOrder()));
     }
 
     public static class StatusCounter {
+        private static final Set<String> ATTRS_TO_REMOVE = Set.of("standard");
         PathStarrer pathStarrer = new PathStarrer().setSubstitutionPattern("*");
         Map<String, StatusData> starredPathToData = new TreeMap<>();
         int missingTotal;
@@ -193,7 +200,7 @@ public class ShowLocaleCoverage {
             if (draftStatus == null) {
                 ++statusData.missing;
                 ++missingTotal;
-            } else
+            } else {
                 switch (draftStatus) {
                     case unconfirmed:
                         ++statusData.unconfirmed;
@@ -206,6 +213,13 @@ public class ShowLocaleCoverage {
                     default:
                         break;
                 }
+            }
+            final List<String> attributes =
+                    CldrUtility.removeAll(
+                            new ArrayList<>(pathStarrer.getAttributes()), ATTRS_TO_REMOVE);
+            if (!attributes.isEmpty()) {
+                statusData.values.add(attributes);
+            }
         }
     }
 
@@ -329,7 +343,7 @@ public class ShowLocaleCoverage {
             tsv_missing_counts.println(TSV_MISSING_COUNTS_HEADER);
 
             final int propertiesCoverageTabCount = 2;
-            printlnWithTabs(propertiesCoverage, propertiesCoverageTabCount, PROPERTIES_HEADER);
+            propertiesCoverage.printlnWithTabs(propertiesCoverageTabCount, PROPERTIES_HEADER);
 
             Set<String> checkModernLocales =
                     STANDARD_CODES.getLocaleCoverageLocales(
@@ -745,6 +759,11 @@ public class ShowLocaleCoverage {
                                 starredCounter.starredPathToData.entrySet()) {
                             String starredPath = starred.getKey();
                             StatusData statusData = starred.getValue();
+                            String valueString =
+                                    statusData.values.stream()
+                                            .map(x -> Joiner.on(", ").join(x))
+                                            .collect(Collectors.joining("; "));
+
                             tsv_missing_basic.println(
                                     specialFlag
                                             + locale //
@@ -755,7 +774,11 @@ public class ShowLocaleCoverage {
                                             + "\t"
                                             + statusData.unconfirmed //
                                             + "\t"
-                                            + starredPath.replace("\"*\"", "'*'"));
+                                            + starredPath.replace("\"*\"", "'*'")
+                                            + "\t"
+                                            + valueString
+                                    //
+                                    );
                         }
                         tsv_missing_basic.println(
                                 specialFlag
@@ -766,8 +789,8 @@ public class ShowLocaleCoverage {
                                         + starredCounter.provisionalTotal //
                                         + "\t"
                                         + starredCounter.unconfirmedTotal //
-                                        + "\tTotals");
-                        tsv_missing_basic.println("\t\t\t\t"); // for a proper table in github
+                                        + "\tTotals\t");
+                        tsv_missing_basic.println("\t\t\t\t\t"); // for a proper table in github
                     }
 
                     int sumFound = 0;
@@ -885,8 +908,7 @@ public class ShowLocaleCoverage {
                     // now write properties file line
 
                     if (computed != Level.UNDETERMINED) {
-                        printlnWithTabs(
-                                propertiesCoverage,
+                        propertiesCoverage.printlnWithTabs(
                                 propertiesCoverageTabCount,
                                 locale
                                         + " ;\t"
@@ -926,7 +948,7 @@ public class ShowLocaleCoverage {
                 }
             }
             String lineToPrint = "\n#EOF";
-            printlnWithTabs(propertiesCoverage, propertiesCoverageTabCount, lineToPrint);
+            propertiesCoverage.printlnWithTabs(propertiesCoverageTabCount, lineToPrint);
 
             pw.println("<h3><a name='main_table' href='#main_table'>Main Table</a></h3>");
             pw.println(tablePrinter.toTable());
@@ -1040,26 +1062,6 @@ public class ShowLocaleCoverage {
                             + " millis/locale");
             ShowPlurals.appendBlanksForScrolling(pw);
         }
-    }
-
-    /** Println with extra tabs to appear as table in github */
-    public static void printlnWithTabs(
-            TempPrintWriter printWriter, int desiredCount, String textToPrint) {
-        StringBuilder result = new StringBuilder();
-        for (String line : LF_SPLITTER.split(textToPrint)) {
-            long count = desiredCount - line.chars().filter(ch -> ch == '\t').count();
-            if (count < 0) {
-                throw new IllegalArgumentException("Too many tabs in line.");
-            }
-            result.append(line);
-            if (count != 0) {
-                for (int i = 0; i < count; ++i) {
-                    result.append('\t');
-                }
-            }
-            result.append('\n');
-        }
-        printWriter.print(result);
     }
 
     private static String linkTsv(String tsvFileName) {

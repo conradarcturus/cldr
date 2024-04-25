@@ -46,6 +46,7 @@ import org.unicode.cldr.util.Organization;
 import org.unicode.cldr.util.Pair;
 import org.unicode.cldr.util.PathUtilities;
 import org.unicode.cldr.util.StandardCodes;
+import org.unicode.cldr.util.TestCLDRPaths;
 import org.unicode.cldr.util.UnicodeRelation;
 import org.unicode.cldr.util.XMLFileReader;
 import org.unicode.cldr.util.XPathParts;
@@ -116,26 +117,33 @@ public class TestTransforms extends TestFmwkPlus {
         Transliterator latin_cyrillic = cyrillic_latin.getInverse();
         checkSimpleRoundTrip(cyrillic_latin, latin_cyrillic, new UnicodeSet("[ӧӦ ӱӰӯӮ\\p{M}]"));
         String[][] tests = {
-            {"х", "kh"},
-            {"Ха", "Kha"},
-            {"Х", "KH"},
-            {"кһ", "k‧h"},
-            {"Кһа", "K‧ha"},
-            {"КҺ", "K‧H"},
+            {"х", "h"},
+            {"Ха", "Ha"},
+            {"Х", "H"},
             {"к", "k"},
             {"К", "K"},
-            {"һ", "h"},
-            {"Һ", "H"},
+            {"һ", "ḫ"},
+            {"Һ", "Ḫ"},
         };
         int count = 0;
         for (String[] test : tests) {
             String cyrillic = test[0];
             String latin = test[1];
+
             String fromCyrillic = cyrillic_latin.transform(cyrillic);
-            assertEquals(++count + ") Cyrillic-Latin(" + cyrillic + ")", latin, fromCyrillic);
-            String fromLatin = latin_cyrillic.transform(cyrillic);
-            assertEquals(count + ") Latin-Cyrillic(" + cyrillic + ")", cyrillic, fromLatin);
+            assertEqualsShowHex(
+                    ++count + ") Cyrillic-Latin(" + cyrillic + ")", latin, fromCyrillic);
+
+            String fromLatin = latin_cyrillic.transform(latin);
+            assertEqualsShowHex(count + ") Latin-Cyrillic(" + latin + ")", cyrillic, fromLatin);
         }
+    }
+
+    static final Transliterator toHex =
+            Transliterator.getInstance("[[:^ASCII:][:cc:]] any-hex/perl");
+
+    private void assertEqualsShowHex(String message, String expected, String actual) {
+        assertEquals(toHex.transform(message), toHex.transform(expected), toHex.transform(actual));
     }
 
     public void TestUzbek() {
@@ -398,13 +406,13 @@ public class TestTransforms extends TestFmwkPlus {
             checkTransformID(entry.getKey(), entry.getValue());
         }
 
-        // Only run the rest in exhaustive mode since it requires CLDR_ARCHIVE_DIRECTORY.
-        if (getInclusion() <= 5) {
-            return;
+        if (!TestCLDRPaths.canUseArchiveDirectory()) {
+            return; // skipped
         }
 
         Set<String> removedTransforms = new HashSet<>();
-        removedTransforms.add("ASCII-Latin"); // http://unicode.org/cldr/trac/ticket/9163
+        removedTransforms.add(
+                "und-t-d0-ascii"); // https://unicode-org.atlassian.net/browse/CLDR-10436
 
         Map<String, File> oldTransforms = getTransformIDs(CLDRPaths.LAST_TRANSFORMS_DIRECTORY);
         for (Map.Entry<String, File> entry : oldTransforms.entrySet()) {
@@ -505,8 +513,10 @@ public class TestTransforms extends TestFmwkPlus {
             return ("Zawgyi-my");
         } else if (id.equalsIgnoreCase("my-t-my-d0-zawgyi")) {
             return "my-Zawgyi";
-        } else if (id.equalsIgnoreCase("und-t-d0-ascii")) {
+        } else if (id.equalsIgnoreCase("und-t-und-latn-d0-ascii")) {
             return ("Latin-ASCII");
+        } else if (id.equalsIgnoreCase("und-latn-t-s0-ascii")) {
+            return ("ASCII-Latin");
         }
 
         Matcher rfc6497Matcher = rfc6497Pattern.matcher(id);
@@ -662,13 +672,6 @@ public class TestTransforms extends TestFmwkPlus {
 
         String lithuanianSource =
                 "I \u00CF J J\u0308 \u012E \u012E\u0308 \u00CC \u00CD \u0128 xi\u0307\u0308 xj\u0307\u0308 x\u012F\u0307\u0308 xi\u0307\u0300 xi\u0307\u0301 xi\u0307\u0303 XI X\u00CF XJ XJ\u0308 X\u012E X\u012E\u0308";
-        // The following test was formerly skipped with
-        // !logKnownIssue("11094", "Fix ICU4J UCharacter.toTitleCase/toLowerCase for lt").
-        // However [https://unicode-org.atlassian.net/browse/ICU-11094] is supposedly
-        // fixed in the version of ICU4J currently in CLDR, but removing the logKnownIssue
-        // to execute the test results in test failures, mainly for  i\u0307\u0308.
-        // So I am changing the logKnownIssue to reference a CLDR ticket about
-        // investigating the test (it may be wrong).
         if (!logKnownIssue(
                 "cldrbug:13313", "Investigate the Lithuanian casing test, it may be wrong")) {
             Transliterator ltTitle =

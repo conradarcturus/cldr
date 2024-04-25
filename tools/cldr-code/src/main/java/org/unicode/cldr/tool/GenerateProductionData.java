@@ -20,6 +20,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,10 +34,13 @@ import org.unicode.cldr.util.CldrUtility;
 import org.unicode.cldr.util.DtdType;
 import org.unicode.cldr.util.Factory;
 import org.unicode.cldr.util.GlossonymConstructor;
+import org.unicode.cldr.util.InternalCldrException;
 import org.unicode.cldr.util.Level;
 import org.unicode.cldr.util.LocaleIDParser;
+import org.unicode.cldr.util.LocaleNames;
 import org.unicode.cldr.util.LogicalGrouping;
 import org.unicode.cldr.util.SupplementalDataInfo;
+import org.unicode.cldr.util.SupplementalDataInfo.ParentLocaleComponent;
 import org.unicode.cldr.util.XMLSource;
 import org.unicode.cldr.util.XPathParts;
 
@@ -159,6 +163,8 @@ public class GenerateProductionData {
 
         // get directories
 
+        Map<File, File> specialDirectories = new TreeMap<>();
+
         Arrays.asList(DtdType.values())
                 // .parallelStream()
                 // .unordered()
@@ -177,8 +183,16 @@ public class GenerateProductionData {
                                 Stats stats = new Stats();
                                 copyFilesAndReturnIsEmpty(
                                         sourceDir, destinationDir, null, isLdmlDtdType, stats);
+                                if (directoryIsSpecial(sourceDir.getAbsolutePath())) {
+                                    specialDirectories.put(sourceDir, destinationDir);
+                                }
                             }
                         });
+
+        for (File source : specialDirectories.keySet()) {
+            File dest = specialDirectories.get(source);
+            doubleCheckSpecialPaths(source, dest);
+        }
     }
 
     private static class Stats {
@@ -221,7 +235,6 @@ public class GenerateProductionData {
      * @param factory
      * @param isLdmlDtdType
      * @param stats
-     * @param hasChildren
      * @return true if the file is an ldml file with empty content.
      */
     private static boolean copyFilesAndReturnIsEmpty(
@@ -286,9 +299,7 @@ public class GenerateProductionData {
                                         isLdmlDtdType2,
                                         stats2);
                         if (isEmpty) { // only happens for ldml
-                            emptyLocales.add(
-                                    file.substring(
-                                            0, file.length() - 4)); // remove .xml for localeId
+                            emptyLocales.add(getLocaleIdFromFileName(file));
                         }
                     });
             stats2.showNonZero("\tTOTAL:\t");
@@ -311,24 +322,25 @@ public class GenerateProductionData {
             if (!file.endsWith(".xml")) {
                 return false;
             }
-            String localeId = file.substring(0, file.length() - 4);
+            String localeId = getLocaleIdFromFileName(file);
             if (FILE_MATCH != null) {
                 if (!FILE_MATCH.reset(localeId).matches()) {
                     return false;
                 }
             }
-            boolean isRoot = localeId.equals("root");
-            String directoryName = sourceFile.getParentFile().getName();
+            boolean isRoot = localeId.equals(LocaleNames.ROOT);
 
             CLDRFile cldrFileUnresolved = factory.make(localeId, false);
             CLDRFile cldrFileResolved = factory.make(localeId, true);
             boolean gotOne = false;
             Set<String> toRemove = new TreeSet<>(); // TreeSet just makes debugging easier
             Set<String> toRetain = new TreeSet<>();
+            Set<String> toRetainSpecial = new TreeSet<>();
             Output<String> pathWhereFound = new Output<>();
             Output<String> localeWhereFound = new Output<>();
 
-            boolean isArabicSpecial = localeId.equals("ar") || localeId.startsWith("ar_");
+            final boolean specialPathsAreRequired =
+                    areSpecialPathsRequired(localeId, sourceFile.toString());
 
             String debugPath =
                     "//ldml/localeDisplayNames/languages/language[@type=\"en_US\"]"; // "//ldml/units/unitLength[@type=\"short\"]/unit[@type=\"power-kilowatt\"]/displayName";
@@ -360,9 +372,8 @@ public class GenerateProductionData {
                     }
                 }
 
-                // special case for Arabic defaultNumberingSystem
-                if (isArabicSpecial && xpath.contains("/defaultNumberingSystem")) {
-                    toRetain.add(xpath);
+                if (specialPathsAreRequired && pathIsSpecial(xpath)) {
+                    toRetainSpecial.add(xpath);
                 }
 
                 // Remove items that are the same as their bailey values.
@@ -425,6 +436,9 @@ public class GenerateProductionData {
                 // past the gauntlet
                 gotOne = true;
             }
+            if (specialPathsAreRequired) {
+                addSpecialPathsIfMissing(toRetainSpecial);
+            }
 
             // we even add empty files, but can delete them back on the directory level.
             try (PrintWriter pw = new PrintWriter(destinationFile)) {
@@ -438,6 +452,7 @@ public class GenerateProductionData {
                 if (DEBUG) {
                     showIfNonZero(localeId, "removing", toRemove);
                     showIfNonZero(localeId, "retaining", toRetain);
+                    showIfNonZero(localeId, "retaining for special paths", toRetainSpecial);
                 }
                 if (CONSTRAINED_RESTORATION) {
                     toRetain.retainAll(toRemove); // only add paths that were there already
@@ -446,6 +461,8 @@ public class GenerateProductionData {
                         showIfNonZero(localeId, "constrained retaining", toRetain);
                     }
                 }
+                // add "special" paths even if CONSTRAINED_RESTORATION
+                toRetain.addAll(toRetainSpecial);
 
                 boolean changed0 = toRemove.removeAll(toRetain);
                 // toRemove == {a}
@@ -530,6 +547,109 @@ public class GenerateProductionData {
             ++stats.files;
             copyFiles(sourceFile, destinationFile);
             return false;
+        }
+    }
+
+    private static String getLocaleIdFromFileName(String file) {
+        return file.substring(0, file.length() - 4); // drop ".xml"
+    }
+
+    /**
+     * Are any "special paths" required to be explicitly included for this locale, in this
+     * directory?
+     *
+     * <p>Currently this requirement applies only to Arabic defaultNumberingSystem, only in
+     * common/main
+     *
+     * @param localeId the locale ID such as "ar_KM"
+     * @param directory the string describing the source directory; currently only "common/main" has
+     *     special paths
+     * @return true if required, else false
+     */
+    private static boolean areSpecialPathsRequired(String localeId, String directory) {
+
+        return localeIsSpecial(localeId) && directoryIsSpecial(directory);
+    }
+
+    private static boolean directoryIsSpecial(String directory) {
+        return directory.contains("common/main");
+    }
+
+    private static boolean localeIsSpecial(String localeId) {
+        return localeId.equals("ar") || (localeId.startsWith("ar_") && !"ar_001".equals(localeId));
+    }
+
+    private static final String[] SPECIAL_PATHS =
+            new String[] {
+                "//ldml/numbers/defaultNumberingSystem",
+                "//ldml/numbers/defaultNumberingSystem[@alt=\"latn\"]"
+            };
+    private static final Set<String> SPECIAL_PATH_SET = new TreeSet<>(Arrays.asList(SPECIAL_PATHS));
+
+    /**
+     * Is the given path a "special path" required to be explicitly included?
+     *
+     * @param xpath the path
+     * @return true if this particular path is required, else false
+     */
+    private static boolean pathIsSpecial(String xpath) {
+        return SPECIAL_PATH_SET.contains(xpath);
+    }
+
+    private static void addSpecialPathsIfMissing(Set<String> toRetainSpecial) {
+        for (String xpath : SPECIAL_PATH_SET) {
+            if (!toRetainSpecial.contains(xpath)) {
+                toRetainSpecial.add(xpath);
+            }
+        }
+    }
+
+    /**
+     * Confirm that a file (in the destination) is present for each "special" locale (in the
+     * source(), and that each such destination file contains all the required "special" paths
+     *
+     * @param sourceDir a directory like ".../common/main"
+     * @param destDir a directory
+     */
+    private static void doubleCheckSpecialPaths(File sourceDir, File destDir) {
+        Set<String> sorted = new TreeSet<>();
+        sorted.addAll(Arrays.asList(sourceDir.list()));
+        Factory factory = Factory.make(destDir.toString(), ".*");
+        sorted.forEach(
+                file -> {
+                    doubleCheckLocale(sourceDir, destDir, file, factory);
+                });
+    }
+
+    private static void doubleCheckLocale(
+            File sourceDir, File destDir, String file, Factory factory) {
+        if (!file.endsWith(".xml")) {
+            return;
+        }
+        String localeId = getLocaleIdFromFileName(file);
+        if (!localeIsSpecial(localeId)) {
+            return;
+        }
+        File destFile = new File(destDir, file);
+        if (!destFile.exists()) {
+            throw new InternalCldrException("doubleCheckLocale FILE NOT FOUND: " + destFile);
+        }
+        // Note: factory.make will fail here unless ../common/dtd/ldml.dtd exists in relation to the
+        // destination folder
+        CLDRFile cldrFileUnresolved = factory.make(localeId, false);
+        for (String xpath : SPECIAL_PATH_SET) {
+            String value = cldrFileUnresolved.getStringValue(xpath);
+            if (value == null) {
+                throw new InternalCldrException(
+                        "Locale " + localeId + " missing required special path " + xpath);
+            }
+            if (CldrUtility.INHERITANCE_MARKER.equals(value)) {
+                throw new InternalCldrException(
+                        "Locale "
+                                + localeId
+                                + " has INHERITANCE_MARKER for required special path "
+                                + xpath);
+            }
         }
     }
 
@@ -687,7 +807,8 @@ public class GenerateProductionData {
                 parent2child.put(parent, locale);
             }
             if (isAnnotationsDir) {
-                String simpleParent = LocaleIDParser.getParent(locale, true);
+                String simpleParent =
+                        LocaleIDParser.getParent(locale, ParentLocaleComponent.collations);
                 if (simpleParent != null && (parent == null || simpleParent != parent)) {
                     parent2child.put(simpleParent, locale);
                 }
@@ -707,7 +828,7 @@ public class GenerateProductionData {
     /**
      * Recursively checks that all children are empty (including that there are no children)
      *
-     * @param name
+     * @param locale
      * @param emptyLocales
      * @param parent2child
      * @return

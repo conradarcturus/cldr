@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
@@ -1496,7 +1496,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			</field>
 			<field type="wed">
 				<relative type="-1">ўтган чоршанба</relative>
-				<relative draft="contributed" type="0">бу чоршанба</relative>
+				<relative type="0" draft="contributed">бу чоршанба</relative>
 				<relative type="1">кейинги чоршанба</relative>
 			</field>
 			<field type="thu">
@@ -2160,11 +2160,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 					<daylight>Лорд Хове кундузги вақти</daylight>
 				</long>
 			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<standard>Маквари ороли вақти</standard>
-				</long>
-			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>Магадан вақти</generic>
@@ -2688,8 +2683,8 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 					<pattern type="100000000000000" count="other" draft="provisional">¤ 000трлн</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
-			<unitPattern count="one">↑↑↑</unitPattern>
-			<unitPattern count="other">↑↑↑</unitPattern>
+			<unitPattern count="one">{0} {1}</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ANG">

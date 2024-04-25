@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
@@ -156,7 +156,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<language type="fil" draft="contributed">filippino</language>
 			<language type="fj" draft="contributed">fidschian</language>
 			<language type="fo">feroais</language>
-			<language type="fon" draft="contributed">↑↑↑</language>
+			<language type="fon" draft="contributed">fon</language>
 			<language type="fr" draft="contributed">franzos</language>
 			<language type="fr_CA" draft="contributed">franzos canadais</language>
 			<language type="fr_CH" draft="contributed">franzos svizzer</language>
@@ -286,7 +286,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<language type="lua" draft="contributed">luba-lulua</language>
 			<language type="lui" draft="contributed">luiseno</language>
 			<language type="lun" draft="contributed">lunda</language>
-			<language type="luo" draft="contributed">↑↑↑</language>
+			<language type="luo" draft="contributed">luo</language>
 			<language type="lus" draft="contributed">lushai</language>
 			<language type="luy">luyia</language>
 			<language type="lv" draft="contributed">letton</language>
@@ -485,7 +485,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<language type="und">lingua nunenconuschenta</language>
 			<language type="ur" draft="contributed">urdu</language>
 			<language type="uz" draft="contributed">usbec</language>
-			<language type="vai" draft="contributed">↑↑↑</language>
+			<language type="vai" draft="contributed">vai</language>
 			<language type="ve" draft="contributed">venda</language>
 			<language type="vi" draft="contributed">vietnamais</language>
 			<language type="vo" draft="contributed">volapuk</language>
@@ -2397,17 +2397,11 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<zone type="Africa/Dar_es_Salaam">
 				<exemplarCity draft="contributed">Daressalam</exemplarCity>
 			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity>Uschhorod</exemplarCity>
-			</zone>
 			<zone type="Europe/Kiev">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="Europe/Simferopol">
 				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity draft="contributed">Saporischja</exemplarCity>
 			</zone>
 			<zone type="America/Anchorage">
 				<exemplarCity draft="contributed">Alasca</exemplarCity>
@@ -2610,8 +2604,8 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 					<pattern type="100000000000000" count="other" draft="provisional">000T ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
-			<unitPattern count="one">↑↑↑</unitPattern>
-			<unitPattern count="other">↑↑↑</unitPattern>
+			<unitPattern count="one">{0} {1}</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ADP">
@@ -3975,10 +3969,16 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				<displayName count="other">crunas slovacas</displayName>
 				<symbol draft="contributed">↑↑↑</symbol>
 			</currency>
-			<currency type="SLL">
+			<currency type="SLE">
 				<displayName>leone da la Sierra Leone</displayName>
 				<displayName count="one">leone da la Sierra Leone</displayName>
 				<displayName count="other">leones da la Sierra Leone</displayName>
+				<symbol draft="contributed">↑↑↑</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName>leone da la Sierra Leone (1964—2022)</displayName>
+				<displayName count="one">leone da la Sierra Leone (1964—2022)</displayName>
+				<displayName count="other">leones da la Sierra Leone (1964—2022)</displayName>
 				<symbol draft="contributed">↑↑↑</symbol>
 			</currency>
 			<currency type="SOS">

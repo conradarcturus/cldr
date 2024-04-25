@@ -199,12 +199,8 @@ public class TestAttributeValues extends TestFmwk {
                 }
                 // XMLFileReader.read("noId", inputStreamReader, -1, true, myHandler);
             } catch (XMLStreamException e) {
-                if (!logKnownIssue("cldrbug 10120", "XML reading issue")) {
-                    warnln("Can't read " + fullFile);
-                } else {
-                    throw (IllegalArgumentException)
-                            new IllegalArgumentException("Can't read " + fullFile).initCause(e);
-                }
+                throw (IllegalArgumentException)
+                        new IllegalArgumentException("Can't read " + fullFile).initCause(e);
             } catch (Throwable e) {
                 if (r == null) throw e;
                 throw new IllegalArgumentException(" at " + r.getLocation(), e);
@@ -307,11 +303,11 @@ public class TestAttributeValues extends TestFmwk {
         }
 
         void show(boolean verbose, ImmutableSet<ValueStatus> retain) {
+            if (dtdData.dtdType == DtdType.keyboard3
+                    && testLog.logKnownIssue("CLDR-14974", "skipping for keyboard")) {
+                testLog.warnln("Skipping for keyboard3");
+            }
             boolean haveProblems = false;
-            //          if (testLog.logKnownIssue("cldrbug 10120", "Don't enable error until
-            // complete")) {
-            //              testLog.warnln("Counts: " + counter.toString());
-            //          } else
             for (ValueStatus valueStatus : ValueStatus.values()) {
                 if (valueStatus == ValueStatus.valid) {
                     continue;

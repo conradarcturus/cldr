@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
@@ -739,7 +739,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<script type="Tfng">Tifinagh</script>
 			<script type="Tglg">Dagalog</script>
 			<script type="Thaa">Thaana</script>
-			<script type="Thai">↑↑↑</script>
+			<script type="Thai">Thai</script>
 			<script type="Tibt">Tibetesch</script>
 			<script type="Ugar">Ugaritesch</script>
 			<script type="Vaii">Vai</script>
@@ -1133,7 +1133,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<type key="collation" type="gb2312han">Vereinfacht Chinesesch - GB2312</type>
 			<type key="collation" type="phonebook">Telefonsbuch-Zortéierung</type>
 			<type key="collation" type="pinyin">Pinyin-Zortéierregelen</type>
-			<type key="collation" type="reformed">Reforméiert Zortéierreiefolleg</type>
 			<type key="collation" type="search">Allgemeng Sich</type>
 			<type key="collation" type="searchjl">Sich no Ufanksbuschtawen aus dem koreaneschen Alphabet</type>
 			<type key="collation" type="standard">Standard Zortéierreiefolleg</type>
@@ -1764,6 +1763,8 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 						<dateFormatItem id="Hm">↑↑↑</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">↑↑↑</dateFormatItem>
+						<dateFormatItem id="hmsv">↑↑↑</dateFormatItem>
+						<dateFormatItem id="Hmsv">↑↑↑</dateFormatItem>
 						<dateFormatItem id="M">↑↑↑</dateFormatItem>
 						<dateFormatItem id="Md">d.M.</dateFormatItem>
 						<dateFormatItem id="MEd">E, d.M.</dateFormatItem>
@@ -2617,14 +2618,8 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<zone type="Africa/Dar_es_Salaam">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity>Uschgorod</exemplarCity>
-			</zone>
 			<zone type="Europe/Kiev">
 				<exemplarCity>Kiew</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity>Saporischschja</exemplarCity>
 			</zone>
 			<zone type="America/North_Dakota/Beulah">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -3201,11 +3196,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 					<daylight>Lord-Howe-Summerzäit</daylight>
 				</long>
 			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<standard>Macquarieinsel-Zäit</standard>
-				</long>
-			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>Magadan-Zäit</generic>
@@ -3243,13 +3233,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<metazone type="Mawson">
 				<long>
 					<standard>Mawson-Zäit</standard>
-				</long>
-			</metazone>
-			<metazone type="Mexico_Northwest">
-				<long>
-					<generic>Nordwest-Mexiko-Zäit</generic>
-					<standard>Nordwest-Mexiko-Normalzäit</standard>
-					<daylight>Nordwest-Mexiko-Summerzäit</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mexico_Pacific">
@@ -3715,8 +3698,8 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 					<pattern type="100000000000000" count="other" draft="provisional">000 Bio'.' ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
-			<unitPattern count="one">↑↑↑</unitPattern>
-			<unitPattern count="other">↑↑↑</unitPattern>
+			<unitPattern count="one">{0} {1}</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ADP">
@@ -4791,10 +4774,15 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				<displayName count="one">Slowakesch Kroun</displayName>
 				<displayName count="other">Slowakesch Krounen</displayName>
 			</currency>
-			<currency type="SLL">
+			<currency type="SLE">
 				<displayName>Sierra-leonesche Leone</displayName>
 				<displayName count="one">Sierra-leonesche Leone</displayName>
 				<displayName count="other">Sierra-leonesch Leones</displayName>
+			</currency>
+			<currency type="SLL">
+				<displayName>Sierra-leonesche Leone (1964—2022)</displayName>
+				<displayName count="one">Sierra-leonesche Leone (1964—2022)</displayName>
+				<displayName count="other">Sierra-leonesch Leones (1964—2022)</displayName>
 			</currency>
 			<currency type="SOS">
 				<displayName>Somalia-Schilling</displayName>
