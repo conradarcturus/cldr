@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 
 Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/ for derived annotations.
@@ -145,7 +145,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<language type="fil">filipino</language>
 			<language type="fj">fixiano</language>
 			<language type="fo">feroés</language>
-			<language type="fon">↑↑↑</language>
+			<language type="fon">fon</language>
 			<language type="fr">francés</language>
 			<language type="fr_CA">francés canadense</language>
 			<language type="fr_CH">francés suízo</language>
@@ -264,7 +264,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<language type="lu">luba-katanga</language>
 			<language type="lua">luba-lulua</language>
 			<language type="lun">lunda</language>
-			<language type="luo">↑↑↑</language>
+			<language type="luo">luo</language>
 			<language type="lus">mizo</language>
 			<language type="luy">luyia</language>
 			<language type="lv">letón</language>
@@ -449,7 +449,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<language type="und">lingua descoñecida</language>
 			<language type="ur">urdú</language>
 			<language type="uz">uzbeko</language>
-			<language type="vai">↑↑↑</language>
+			<language type="vai">vai</language>
 			<language type="ve">venda</language>
 			<language type="vi">vietnamita</language>
 			<language type="vo">volapuk</language>
@@ -920,7 +920,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<type key="collation" type="phonebook">orde de clasificación da guía telefónica</type>
 			<type key="collation" type="phonetic">Orde de clasificación fonética</type>
 			<type key="collation" type="pinyin">Orde de clasificación pinyin</type>
-			<type key="collation" type="reformed">Criterio de ordenación reformado</type>
 			<type key="collation" type="search">busca de carácter xeral</type>
 			<type key="collation" type="searchjl">Clasificar por consonante inicial hangul</type>
 			<type key="collation" type="standard">criterio de ordenación estándar</type>
@@ -2554,9 +2553,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<regionFormat type="daylight">hora de verán de: {0}</regionFormat>
 			<regionFormat type="standard">hora estándar de: {0}</regionFormat>
 			<fallbackFormat>↑↑↑</fallbackFormat>
-			<zone type="America/Santa_Isabel">
-				<exemplarCity>Santa Isabel</exemplarCity>
-			</zone>
 			<zone type="Etc/UTC">
 				<long>
 					<standard>hora universal coordinada</standard>
@@ -2678,9 +2674,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			</zone>
 			<zone type="Australia/Melbourne">
 				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Australia/Currie">
-				<exemplarCity>Currie</exemplarCity>
 			</zone>
 			<zone type="Australia/Hobart">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -2835,9 +2828,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="America/Creston">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Yellowknife">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Edmonton">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
@@ -2856,28 +2846,16 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="America/Resolute">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Rainy_River">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Rankin_Inlet">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Coral_Harbour">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Thunder_Bay">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="America/Nipigon">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Toronto">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Iqaluit">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="America/Pangnirtung">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Moncton">
@@ -3693,17 +3671,11 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="Africa/Dar_es_Salaam">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity>Uzghorod</exemplarCity>
-			</zone>
 			<zone type="Europe/Kiev">
 				<exemplarCity>Kíiv</exemplarCity>
 			</zone>
 			<zone type="Europe/Simferopol">
 				<exemplarCity>Simferópol</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity>Zaporizhia</exemplarCity>
 			</zone>
 			<zone type="Africa/Kampala">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -3722,9 +3694,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			</zone>
 			<zone type="Pacific/Honolulu">
 				<exemplarCity>Honolulú</exemplarCity>
-			</zone>
-			<zone type="Pacific/Johnston">
-				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Anchorage">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -4393,11 +4362,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 					<daylight>hora de verán de Lord Howe</daylight>
 				</long>
 			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<standard>hora da Illa Macquarie</standard>
-				</long>
-			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>hora de Magadan</generic>
@@ -4435,13 +4399,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<metazone type="Mawson">
 				<long>
 					<standard>hora de Mawson</standard>
-				</long>
-			</metazone>
-			<metazone type="Mexico_Northwest">
-				<long>
-					<generic>hora do noroeste de México</generic>
-					<standard>hora estándar do noroeste de México</standard>
-					<daylight>hora de verán do noroeste de México</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mexico_Pacific">
@@ -4938,8 +4895,8 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 				</currencyFormat>
 			</currencyFormatLength>
 			<currencyPatternAppendISO>{0} ¤¤</currencyPatternAppendISO>
-			<unitPattern count="one">↑↑↑</unitPattern>
-			<unitPattern count="other">↑↑↑</unitPattern>
+			<unitPattern count="one">{0} {1}</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ADP">
@@ -5945,10 +5902,16 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 				<symbol>↑↑↑</symbol>
 				<symbol alt="narrow">↑↑↑</symbol>
 			</currency>
-			<currency type="SLL">
+			<currency type="SLE">
 				<displayName>leone de Serra Leoa</displayName>
 				<displayName count="one">leone de Serra Leoa</displayName>
 				<displayName count="other">leones de Serra Leoa</displayName>
+				<symbol>↑↑↑</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName>leone de Serra Leoa (1964—2022)</displayName>
+				<displayName count="one">leone de Serra Leoa (1964—2022)</displayName>
+				<displayName count="other">leones de Serra Leoa (1964—2022)</displayName>
 				<symbol>↑↑↑</symbol>
 			</currency>
 			<currency type="SOS">
@@ -9676,7 +9639,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 		<nameOrderLocales order="surnameFirst">ko vi yue zh</nameOrderLocales>
 		<parameterDefault parameter="formality">informal</parameterDefault>
 		<parameterDefault parameter="length">long</parameterDefault>
-		<nativeSpaceReplacement>↑↑↑</nativeSpaceReplacement>
+		<nativeSpaceReplacement xml:space="preserve">↑↑↑</nativeSpaceReplacement>
 		<foreignSpaceReplacement xml:space="preserve">↑↑↑</foreignSpaceReplacement>
 		<initialPattern type="initial">↑↑↑</initialPattern>
 		<initialPattern type="initialSequence">↑↑↑</initialPattern>
@@ -9791,27 +9754,26 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 		<personName order="sorting" length="long" usage="referring" formality="formal">
 			<namePattern>{surname-core} {surname2}, {given} {given2} {surname-prefix}</namePattern>
 			<namePattern alt="1">{surname-core}, {given} {given2} {surname-prefix}</namePattern>
-			<namePattern alt="2">↑↑↑</namePattern>
 		</personName>
 		<personName order="sorting" length="long" usage="referring" formality="informal">
 			<namePattern>{surname-core} {surname2}, {given-informal} {surname-prefix}</namePattern>
-			<namePattern alt="1">↑↑↑</namePattern>
+			<namePattern alt="1">{surname-core}, {given-informal} {surname-prefix}</namePattern>
 		</personName>
 		<personName order="sorting" length="medium" usage="referring" formality="formal">
 			<namePattern>{surname-core} {surname2}, {given} {given2-initial} {surname-prefix}</namePattern>
-			<namePattern alt="1">{surname-core} {surname2}, {given} {given2} {surname-prefix}</namePattern>
+			<namePattern alt="1">{surname-core}, {given} {given2-initial} {surname-prefix}</namePattern>
 		</personName>
 		<personName order="sorting" length="medium" usage="referring" formality="informal">
 			<namePattern>{surname-core} {surname2}, {given-informal} {surname-prefix}</namePattern>
-			<namePattern alt="1">↑↑↑</namePattern>
+			<namePattern alt="1">{surname-core}, {given-informal} {surname-prefix}</namePattern>
 		</personName>
 		<personName order="sorting" length="short" usage="referring" formality="formal">
 			<namePattern>{surname-core} {surname2}, {given-initial} {given2-initial} {surname-prefix}</namePattern>
-			<namePattern alt="1">{surname-core} {surname2}, {given-initial} {given2-initial} {surname-prefix}</namePattern>
+			<namePattern alt="1">{surname-core}, {given-initial} {given2-initial} {surname-prefix}</namePattern>
 		</personName>
 		<personName order="sorting" length="short" usage="referring" formality="informal">
 			<namePattern>{surname-core} {surname2}, {given-informal} {surname-prefix}</namePattern>
-			<namePattern alt="1">↑↑↑</namePattern>
+			<namePattern alt="1">{surname-core}, {given-informal} {surname-prefix}</namePattern>
 		</personName>
 		<sampleName item="nativeG">
 			<nameField type="given">Uxía</nameField>

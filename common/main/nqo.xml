@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
@@ -1404,6 +1404,20 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
+		<percentFormats numberSystem="latn">
+			<percentFormatLength>
+				<percentFormat>
+					<pattern>↑↑↑</pattern>
+				</percentFormat>
+			</percentFormatLength>
+		</percentFormats>
+		<currencyFormats numberSystem="latn">
+			<currencyFormatLength>
+				<currencyFormat type="standard">
+					<pattern>↑↑↑</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
 		<currencies>
 			<currency type="AOA">
 				<displayName>ߊ߲ߜ߭ߏߟߞߊ ߟߎ߬ ߟߊ߫ ߞߎߥߊ߲ߖ߭ߊ</displayName>
@@ -1648,10 +1662,14 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				<symbol draft="contributed">ߛߤߔ</symbol>
 				<symbol alt="narrow" draft="contributed">↑↑↑</symbol>
 			</currency>
-			<currency type="SLL">
+			<currency type="SLE">
 				<displayName>ߛߙߊ߬ߟߏ߲߬ߞߊ ߟߎ߬ ߟߊ߫ ߔߐߣߌ߬</displayName>
 				<displayName count="other">↑↑↑</displayName>
 				<symbol draft="contributed">ߛߙߔ</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName>ߛߙߊ߬ߟߏ߲߬ߞߊ ߟߎ߬ ߟߊ߫ ߔߐߣߌ߬ - 1964-2022</displayName>
+				<displayName count="other">↑↑↑</displayName>
 			</currency>
 			<currency type="SOS">
 				<displayName>ߛߏߡߊߟߌߞߊ ߟߎ߬ ߟߊ߫ ߛߌߟߌ߲ߜ߭</displayName>

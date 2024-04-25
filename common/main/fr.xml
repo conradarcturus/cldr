@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 
 Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/ for derived annotations.
@@ -204,7 +204,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<language type="fit">finnois tornédalien</language>
 			<language type="fj">fidjien</language>
 			<language type="fo">féroïen</language>
-			<language type="fon">↑↑↑</language>
+			<language type="fon">fon</language>
 			<language type="fr">français</language>
 			<language type="fr_CA">français canadien</language>
 			<language type="fr_CH">français suisse</language>
@@ -372,7 +372,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<language type="lua">luba-kasaï (ciluba)</language>
 			<language type="lui">luiseño</language>
 			<language type="lun">lunda</language>
-			<language type="luo">↑↑↑</language>
+			<language type="luo">luo</language>
 			<language type="lus">lushaï</language>
 			<language type="luy">luyia</language>
 			<language type="lv">letton</language>
@@ -434,7 +434,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<language type="ng">ndonga</language>
 			<language type="nia">niha</language>
 			<language type="niu">niuéen</language>
-			<language type="njo">Ao</language>
+			<language type="njo">ao</language>
 			<language type="nl">néerlandais</language>
 			<language type="nl_BE">flamand</language>
 			<language type="nmg">ngoumba</language>
@@ -729,6 +729,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Elba" draft="unconfirmed">elbasan</script>
 			<script type="Elym">élymaïque</script>
 			<script type="Ethi">éthiopique</script>
+			<script type="Gara" draft="provisional">garay</script>
 			<script type="Geok">géorgien khoutsouri</script>
 			<script type="Geor">géorgien</script>
 			<script type="Glag">glagolitique</script>
@@ -738,6 +739,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Gran" draft="unconfirmed">grantha</script>
 			<script type="Grek">grec</script>
 			<script type="Gujr">goudjarâtî</script>
+			<script type="Gukh" draft="provisional">gurung khema</script>
 			<script type="Guru">gourmoukhî</script>
 			<script type="Hanb">han avec bopomofo</script>
 			<script type="Hang">hangûl</script>
@@ -771,6 +773,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Knda">kannara</script>
 			<script type="Kore">coréen</script>
 			<script type="Kpel" draft="unconfirmed">kpelle</script>
+			<script type="Krai" draft="provisional">kirat rai</script>
 			<script type="Kthi">kaithî</script>
 			<script type="Lana">lanna</script>
 			<script type="Laoo">lao</script>
@@ -813,6 +816,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Nshu" draft="unconfirmed">nüshu</script>
 			<script type="Ogam">ogam</script>
 			<script type="Olck">ol-chiki</script>
+			<script type="Onao" draft="provisional">ol onal</script>
 			<script type="Orkh">orkhon</script>
 			<script type="Orya">odia</script>
 			<script type="Osge" draft="unconfirmed">osage</script>
@@ -848,6 +852,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Sora" draft="unconfirmed">sora sompeng</script>
 			<script type="Soyo" draft="unconfirmed">soyombo</script>
 			<script type="Sund">sundanais</script>
+			<script type="Sunu" draft="provisional">sunuwar</script>
 			<script type="Sylo">sylotî nâgrî</script>
 			<script type="Syrc">syriaque</script>
 			<script type="Syre">syriaque estranghélo</script>
@@ -869,7 +874,9 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<script type="Tibt">tibétain</script>
 			<script type="Tirh" draft="unconfirmed">tirhouta</script>
 			<script type="Tnsa" draft="provisional">tangsa</script>
+			<script type="Todr" draft="provisional">todhri</script>
 			<script type="Toto" draft="provisional">toto</script>
+			<script type="Tutg" draft="provisional">tulu-tigalari</script>
 			<script type="Ugar">ougaritique</script>
 			<script type="Vaii">vaï</script>
 			<script type="Visp">parole visible</script>
@@ -1372,7 +1379,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<type key="collation" type="phonebook">ordre de l’annuaire</type>
 			<type key="collation" type="phonetic">ordre de tri phonétique</type>
 			<type key="collation" type="pinyin">ordre pinyin</type>
-			<type key="collation" type="reformed">ordre réformé</type>
 			<type key="collation" type="search">recherche générique</type>
 			<type key="collation" type="searchjl" draft="contributed">rechercher par consonne initiale en hangeul</type>
 			<type key="collation" type="standard">ordre de tri standard</type>
@@ -3026,7 +3032,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 							<dayPeriod type="morning1">matin</dayPeriod>
 							<dayPeriod type="afternoon1">après-midi</dayPeriod>
 							<dayPeriod type="evening1">soir</dayPeriod>
-							<dayPeriod type="night1">nuit</dayPeriod>
+							<dayPeriod type="night1">matin</dayPeriod>
 						</dayPeriodWidth>
 						<dayPeriodWidth type="narrow">
 							<dayPeriod type="midnight">↑↑↑</dayPeriod>
@@ -5442,9 +5448,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<regionFormat type="daylight">{0} (heure d’été)</regionFormat>
 			<regionFormat type="standard">{0} (heure standard)</regionFormat>
 			<fallbackFormat>↑↑↑</fallbackFormat>
-			<zone type="America/Santa_Isabel">
-				<exemplarCity>Santa Isabel</exemplarCity>
-			</zone>
 			<zone type="Etc/UTC">
 				<long>
 					<standard>temps universel coordonné</standard>
@@ -5569,9 +5572,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			</zone>
 			<zone type="Australia/Melbourne">
 				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Australia/Currie">
-				<exemplarCity>Currie</exemplarCity>
 			</zone>
 			<zone type="Australia/Hobart">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -5726,9 +5726,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="America/Creston">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Yellowknife">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Edmonton">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
@@ -5747,28 +5744,16 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="America/Resolute">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Rainy_River">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Rankin_Inlet">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Coral_Harbour">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="America/Thunder_Bay">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="America/Nipigon">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
 			<zone type="America/Toronto">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Iqaluit">
-				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="America/Pangnirtung">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Moncton">
@@ -6584,17 +6569,11 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<zone type="Africa/Dar_es_Salaam">
 				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity>Oujgorod</exemplarCity>
-			</zone>
 			<zone type="Europe/Kiev">
 				<exemplarCity>Kiev</exemplarCity>
 			</zone>
 			<zone type="Europe/Simferopol">
 				<exemplarCity>↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity>Zaporojie</exemplarCity>
 			</zone>
 			<zone type="Africa/Kampala">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -6618,9 +6597,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 					<daylight draft="unconfirmed">HDT</daylight>
 				</short>
 				<exemplarCity>Honolulu</exemplarCity>
-			</zone>
-			<zone type="Pacific/Johnston">
-				<exemplarCity>↑↑↑</exemplarCity>
 			</zone>
 			<zone type="America/Anchorage">
 				<exemplarCity>↑↑↑</exemplarCity>
@@ -7384,11 +7360,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 					<daylight draft="unconfirmed">heure d’été de Macao</daylight>
 				</long>
 			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<standard>heure de l’île Macquarie</standard>
-				</long>
-			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>heure de Magadan</generic>
@@ -7427,18 +7398,6 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 				<long>
 					<standard>heure de Mawson</standard>
 				</long>
-			</metazone>
-			<metazone type="Mexico_Northwest">
-				<long>
-					<generic>heure du Nord-Ouest du Mexique</generic>
-					<standard>heure normale du Nord-Ouest du Mexique</standard>
-					<daylight>heure d’été du Nord-Ouest du Mexique</daylight>
-				</long>
-				<short>
-					<generic draft="unconfirmed">HNOMX</generic>
-					<standard draft="unconfirmed">HNNOMX</standard>
-					<daylight draft="unconfirmed">HENOMX</daylight>
-				</short>
 			</metazone>
 			<metazone type="Mexico_Pacific">
 				<long>
@@ -8100,8 +8059,8 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 				</currencyFormat>
 			</currencyFormatLength>
 			<currencyPatternAppendISO>↑↑↑</currencyPatternAppendISO>
-			<unitPattern count="one">↑↑↑</unitPattern>
-			<unitPattern count="other">↑↑↑</unitPattern>
+			<unitPattern count="one">{0} {1}</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ADP">
@@ -9534,10 +9493,16 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 				<displayName count="other">couronnes slovaques</displayName>
 				<symbol draft="unconfirmed">↑↑↑</symbol>
 			</currency>
-			<currency type="SLL">
+			<currency type="SLE">
 				<displayName>leone sierra-léonais</displayName>
 				<displayName count="one">leone sierra-léonais</displayName>
 				<displayName count="other">leones sierra-léonais</displayName>
+				<symbol>↑↑↑</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName>leone sierra-léonais (1964—2022)</displayName>
+				<displayName count="one">leone sierra-léonais (1964—2022)</displayName>
+				<displayName count="other">leones sierra-léonais (1964—2022)</displayName>
 				<symbol>↑↑↑</symbol>
 			</currency>
 			<currency type="SOS">
@@ -9854,6 +9819,13 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 				<displayName count="one">dollar des Caraïbes orientales</displayName>
 				<displayName count="other">dollars des Caraïbes orientales</displayName>
 				<symbol>XCD</symbol>
+				<symbol alt="narrow">↑↑↑</symbol>
+			</currency>
+			<currency type="XCG">
+				<displayName>florin caribéen</displayName>
+				<displayName count="one">florin caribéen</displayName>
+				<displayName count="other">florins caribéens</displayName>
+				<symbol>↑↑↑</symbol>
 				<symbol alt="narrow">↑↑↑</symbol>
 			</currency>
 			<currency type="XDR">
@@ -11696,7 +11668,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<unit type="energy-foodcalorie">
 				<displayName>↑↑↑</displayName>
 				<unitPattern count="one">{0} kcal</unitPattern>
-				<unitPattern count="other">{0}  kcal</unitPattern>
+				<unitPattern count="other">{0} kcal</unitPattern>
 			</unit>
 			<unit type="energy-kilojoule">
 				<displayName>↑↑↑</displayName>
@@ -13654,7 +13626,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 		<nameOrderLocales order="surnameFirst">ko vi yue zh</nameOrderLocales>
 		<parameterDefault parameter="formality">↑↑↑</parameterDefault>
 		<parameterDefault parameter="length">↑↑↑</parameterDefault>
-		<nativeSpaceReplacement>↑↑↑</nativeSpaceReplacement>
+		<nativeSpaceReplacement xml:space="preserve">↑↑↑</nativeSpaceReplacement>
 		<foreignSpaceReplacement xml:space="preserve">↑↑↑</foreignSpaceReplacement>
 		<initialPattern type="initial">↑↑↑</initialPattern>
 		<initialPattern type="initialSequence">↑↑↑</initialPattern>
@@ -13677,7 +13649,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<namePattern>{given-informal-monogram-allCaps}{surname-core-monogram-allCaps}</namePattern>
 		</personName>
 		<personName order="givenFirst" length="medium" usage="referring" formality="formal">
-			<namePattern>{given} {given2-initial} {surname}</namePattern>
+			<namePattern>{given} {given2-initial-retain} {surname}</namePattern>
 		</personName>
 		<personName order="givenFirst" length="medium" usage="referring" formality="informal">
 			<namePattern>{given-informal} {surname}</namePattern>
@@ -13695,10 +13667,10 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<namePattern>{given-informal-monogram-allCaps}{surname-core-monogram-allCaps}</namePattern>
 		</personName>
 		<personName order="givenFirst" length="short" usage="referring" formality="formal">
-			<namePattern>{given-initial} {given2-initial} {surname}</namePattern>
+			<namePattern>{given-initial-retain} {given2-initial-retain} {surname}</namePattern>
 		</personName>
 		<personName order="givenFirst" length="short" usage="referring" formality="informal">
-			<namePattern>{given-informal} {surname-initial}</namePattern>
+			<namePattern>{given-informal} {surname-initial-retain}</namePattern>
 		</personName>
 		<personName order="givenFirst" length="short" usage="addressing" formality="formal">
 			<namePattern>{title} {surname}</namePattern>
@@ -13731,7 +13703,7 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<namePattern>{surname-core-monogram-allCaps}{given-informal-monogram-allCaps}</namePattern>
 		</personName>
 		<personName order="surnameFirst" length="medium" usage="referring" formality="formal">
-			<namePattern>{surname} {given} {given2-initial}</namePattern>
+			<namePattern>{surname} {given} {given2-initial-retain}</namePattern>
 		</personName>
 		<personName order="surnameFirst" length="medium" usage="referring" formality="informal">
 			<namePattern>{surname} {given-informal}</namePattern>
@@ -13749,10 +13721,10 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<namePattern>{surname-core-monogram-allCaps}{given-informal-monogram-allCaps}</namePattern>
 		</personName>
 		<personName order="surnameFirst" length="short" usage="referring" formality="formal">
-			<namePattern>{surname} {given-initial} {given2-initial}</namePattern>
+			<namePattern>{surname} {given-initial-retain} {given2-initial-retain}</namePattern>
 		</personName>
 		<personName order="surnameFirst" length="short" usage="referring" formality="informal">
-			<namePattern>{surname} {given-initial}</namePattern>
+			<namePattern>{surname} {given-initial-retain}</namePattern>
 		</personName>
 		<personName order="surnameFirst" length="short" usage="addressing" formality="formal">
 			<namePattern>{title} {surname}</namePattern>
@@ -13773,13 +13745,13 @@ Warnings: All cp values have U+FE0F characters removed. See /annotationsDerived/
 			<namePattern>{surname}, {given-informal}</namePattern>
 		</personName>
 		<personName order="sorting" length="medium" usage="referring" formality="formal">
-			<namePattern>{surname-core}, {given} {given2-initial} {surname-prefix}</namePattern>
+			<namePattern>{surname-core}, {given} {given2-initial-retain} {surname-prefix}</namePattern>
 		</personName>
 		<personName order="sorting" length="medium" usage="referring" formality="informal">
 			<namePattern>{surname}, {given-informal}</namePattern>
 		</personName>
 		<personName order="sorting" length="short" usage="referring" formality="formal">
-			<namePattern>{surname-core}, {given-initial} {given2-initial} {surname-prefix}</namePattern>
+			<namePattern>{surname-core}, {given-initial-retain} {given2-initial-retain} {surname-prefix}</namePattern>
 		</personName>
 		<personName order="sorting" length="short" usage="referring" formality="informal">
 			<namePattern>{surname}, {given-informal}</namePattern>

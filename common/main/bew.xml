@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
@@ -497,13 +497,13 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 		<scripts>
 			<script type="Adlm" draft="unconfirmed">Adlam</script>
 			<script type="Aghb" draft="unconfirmed">Albani Kaukasus</script>
-			<script type="Ahom" draft="unconfirmed">↑↑↑</script>
-			<script type="Arab" draft="unconfirmed">↑↑↑</script>
+			<script type="Ahom" draft="unconfirmed">Ahom</script>
+			<script type="Arab" draft="unconfirmed">Arab</script>
 			<script type="Aran" draft="unconfirmed">Nasta’lik</script>
 			<script type="Armi" draft="unconfirmed">Aram Kekaèsaran</script>
 			<script type="Armn" draft="unconfirmed">Lemènder</script>
 			<script type="Avst" draft="unconfirmed">Awèstan</script>
-			<script type="Bali" draft="unconfirmed">↑↑↑</script>
+			<script type="Bali" draft="unconfirmed">Bali</script>
 			<script type="Bamu" draft="unconfirmed">Bamum</script>
 			<script type="Bass" draft="unconfirmed">Wah</script>
 			<script type="Batk" draft="unconfirmed">Batak</script>
@@ -592,7 +592,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<script type="Merc" draft="unconfirmed">Merowé Doyong</script>
 			<script type="Mero" draft="unconfirmed">Merowé</script>
 			<script type="Mlym" draft="unconfirmed">Malayalam</script>
-			<script type="Modi" draft="unconfirmed">↑↑↑</script>
+			<script type="Modi" draft="unconfirmed">Modi</script>
 			<script type="Mong" draft="unconfirmed">Monggoli</script>
 			<script type="Mroo" draft="unconfirmed">Meru</script>
 			<script type="Mtei" draft="unconfirmed">Manipur</script>
@@ -656,7 +656,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<script type="Tibt" draft="unconfirmed">Tibèt</script>
 			<script type="Tirh" draft="unconfirmed">Tirhuta</script>
 			<script type="Tnsa" draft="unconfirmed">Tangsa</script>
-			<script type="Toto" draft="unconfirmed">↑↑↑</script>
+			<script type="Toto" draft="unconfirmed">Toto</script>
 			<script type="Ugar" draft="unconfirmed">Ugarit</script>
 			<script type="Vaii" draft="unconfirmed">Wai</script>
 			<script type="Vith" draft="unconfirmed">Witkut</script>
@@ -3799,17 +3799,11 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<zone type="Africa/Dar_es_Salaam">
 				<exemplarCity draft="unconfirmed">Darussalam</exemplarCity>
 			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity draft="unconfirmed">Usgorod</exemplarCity>
-			</zone>
 			<zone type="Europe/Kiev">
 				<exemplarCity draft="unconfirmed">Kiip</exemplarCity>
 			</zone>
 			<zone type="Europe/Simferopol">
 				<exemplarCity draft="unconfirmed">Akmesjid</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity draft="unconfirmed">Saporijiah</exemplarCity>
 			</zone>
 			<zone type="Africa/Kampala">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
@@ -3822,9 +3816,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			</zone>
 			<zone type="America/Adak">
 				<exemplarCity draft="unconfirmed">↑↑↑</exemplarCity>
-			</zone>
-			<zone type="Pacific/Johnston">
-				<exemplarCity draft="unconfirmed">Jonsten</exemplarCity>
 			</zone>
 			<zone type="America/Anchorage">
 				<exemplarCity draft="unconfirmed">Angkorèt</exemplarCity>
@@ -4457,11 +4448,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 					<daylight draft="unconfirmed">Waktu Musim Pentèr Makao</daylight>
 				</long>
 			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<standard draft="unconfirmed">Waktu Pulo Macquarie</standard>
-				</long>
-			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic draft="unconfirmed">Waktu Magadan</generic>
@@ -4499,13 +4485,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<metazone type="Mawson">
 				<long>
 					<standard draft="unconfirmed">Waktu Mawson</standard>
-				</long>
-			</metazone>
-			<metazone type="Mexico_Northwest">
-				<long>
-					<generic draft="unconfirmed">Waktu Mèksiko Lor-kulon</generic>
-					<standard draft="unconfirmed">Waktu Pakem Mèksiko Lor-kulon</standard>
-					<daylight draft="unconfirmed">Waktu Musim Pentèr Mèksiko Lor-kulon</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mexico_Pacific">
@@ -4949,7 +4928,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 					<pattern type="100000000000000" count="other" draft="unconfirmed">¤ 000 T</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
-			<unitPattern count="other" draft="unconfirmed">↑↑↑</unitPattern>
+			<unitPattern count="other" draft="unconfirmed">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="AED">
@@ -5662,9 +5641,14 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				<symbol draft="unconfirmed">↑↑↑</symbol>
 				<symbol alt="narrow" draft="unconfirmed">↑↑↑</symbol>
 			</currency>
-			<currency type="SLL">
+			<currency type="SLE">
 				<displayName draft="unconfirmed">Léon Gunung Singa</displayName>
 				<displayName count="other" draft="unconfirmed">léon Gunung Singa</displayName>
+				<symbol draft="unconfirmed">↑↑↑</symbol>
+			</currency>
+			<currency type="SLL">
+				<displayName draft="unconfirmed">Léon Gunung Singa (1964—2022)</displayName>
+				<displayName count="other" draft="unconfirmed">léon Gunung Singa (1964—2022)</displayName>
 				<symbol draft="unconfirmed">↑↑↑</symbol>
 			</currency>
 			<currency type="SOS">

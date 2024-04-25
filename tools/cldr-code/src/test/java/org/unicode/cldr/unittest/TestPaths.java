@@ -1,6 +1,7 @@
 package org.unicode.cldr.unittest;
 
 import com.google.common.collect.ImmutableSet;
+import com.ibm.icu.util.MatchElementAttribute;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeSet;
 import org.unicode.cldr.util.CLDRConfig;
 import org.unicode.cldr.util.CLDRFile;
@@ -24,8 +26,10 @@ import org.unicode.cldr.util.ChainedMap.M5;
 import org.unicode.cldr.util.CldrUtility;
 import org.unicode.cldr.util.DtdData;
 import org.unicode.cldr.util.DtdData.Attribute;
+import org.unicode.cldr.util.DtdData.DtdGuide.DtdVisitor;
 import org.unicode.cldr.util.DtdData.Element;
 import org.unicode.cldr.util.DtdData.ElementType;
+import org.unicode.cldr.util.DtdData.ValueStatus;
 import org.unicode.cldr.util.DtdType;
 import org.unicode.cldr.util.Pair;
 import org.unicode.cldr.util.PathHeader;
@@ -207,7 +211,6 @@ public class TestPaths extends TestFmwkPlus {
 
     final ImmutableSet<String> ALLOWED_NULL =
             ImmutableSet.of(
-                    "//ldml/dates/timeZoneNames/zone[@type=\"Australia/Currie\"]/exemplarCity",
                     "//ldml/dates/timeZoneNames/zone[@type=\"Pacific/Enderbury\"]/exemplarCity");
 
     /** Is the path allowed to have a null value? */
@@ -377,12 +380,10 @@ public class TestPaths extends TestFmwkPlus {
 
         public void show(int inclusion) {
             for (DtdType dtdType : DtdType.values()) {
-                if (dtdType == DtdType.ldmlICU
-                        || (inclusion <= 5
-                                && dtdType
-                                        == DtdType
-                                                .platform)) { // keyboards/*/_platform.xml won't be
-                    // in the list for non-exhaustive runs
+                if (dtdType.getStatus() != DtdType.DtdStatus.active) {
+                    continue;
+                }
+                if (dtdType == DtdType.ldmlICU) {
                     continue;
                 }
                 M4<String, String, String, Boolean> infoEAV = data.get(dtdType);
@@ -454,13 +455,21 @@ public class TestPaths extends TestFmwkPlus {
             String dirPath = CLDRPaths.BASE_DIRECTORY + directory;
             for (String fileName : new File(dirPath).list()) {
                 File dir2 = new File(dirPath + fileName);
-                if (!dir2.isDirectory() || fileName.equals("properties") // TODO as flat files
+                if (!dir2.isDirectory()
+                        || (dir2.getName().equals("import")
+                                && directory.equals("keyboards/")) // has a different root element
+                        || fileName.equals("properties") // TODO as flat files
                 //                    || fileName.equals(".DS_Store")
                 //                    || ChartDelta.LDML_DIRECTORIES.contains(dir)
                 //                    || fileName.equals("dtd")  // TODO as flat files
                 //                    || fileName.equals(".project")  // TODO as flat files
                 //                    //|| dir.equals("uca") // TODO as flat files
                 ) {
+                    continue;
+                }
+                if (dir2.getPath().contains("/keyboards/3.0")
+                        && logKnownIssue(
+                                "CLDR-17574", "With v46, parsing issues for keyboard xml files")) {
                     continue;
                 }
 
@@ -540,15 +549,22 @@ public class TestPaths extends TestFmwkPlus {
                             //                        parts.set(path);
                             //                        removeNonDistinguishing(parts, dtdData,
                             // counter, removed, nonFinalValues);
-                            errln(
-                                    "Duplicate: "
-                                            + file
-                                            + ", "
-                                            + path
-                                            + ", "
-                                            + cleaned
-                                            + ", "
-                                            + value);
+                            if (type != DtdType.keyboardTest3
+                                    || !logKnownIssue(
+                                            "CLDR-17398",
+                                            "keyboardTest data appears as duplicate xpaths")) {
+                                errln(
+                                        "Duplicate "
+                                                + type.toString()
+                                                + ": "
+                                                + file
+                                                + ", "
+                                                + path
+                                                + ", "
+                                                + cleaned
+                                                + ", "
+                                                + value);
+                            }
                         } else {
                             seen.add(pair);
                             if (!nonFinalValues.isEmpty()) {
@@ -681,5 +697,85 @@ public class TestPaths extends TestFmwkPlus {
             }
         }
         return counter;
+    }
+
+    public void testForUndefined() {
+        DtdVisitor visitor =
+                new DtdVisitor() {
+                    final MatchElementAttribute skipAttributeNames =
+                            new MatchElementAttribute()
+                                    .add( // Add, once checking to make sure that these are safe.
+                                            // Pairs of element, attribute
+                                            "", "references", //
+                                            "", "cp", //
+                                            "version", "", //
+                                            // "ruleset", "type", //
+                                            "parseLenient", "", // UnicodeSet
+                                            "ruleset", "", // special structure
+                                            "casingItem", "", // Special structure
+                                            "unitIdComponent", "", // small, relatively fixed set
+                                            "unitConstant", "", // only used internally/...
+                                            "unitQuantity",
+                                                    "", // quantity and and baseUnit will be in
+                                            // validity/...
+                                            "convertUnit", "", // source and baseUnit will be in
+                                            // validity/...
+                                            "unitPreferences",
+                                                    "category", // category == quantity will be in
+                                            // validity/...
+                                            "unitPreferences",
+                                                    "usage", // usage will be in validity/...
+                                            "unitPreference", "", // not ids
+                                            "transform", "", // not ids
+                                            "numberingSystem", "rules", // rule format can't match
+                                            "coverageVariable", "", // no ids
+                                            "coverageLevel", "", // no ids
+                                            "approvalRequirement", "", // no ids
+                                            "pathMatch", "", // no ids
+                                            "languageMatch", "", // no ids
+                                            "rgPath", "", // no ids
+                                            "mapTimezones", "", // ids checked elsewhere
+                                            "mapZone", "" // ids checked elsewhere
+                                            );
+                    final Set<String> skipElementAndChildren = Set.of("keyboard3", "keyboardTest3");
+
+                    @Override
+                    public boolean visit(
+                            DtdType dtdType,
+                            Stack<Element> ancestors,
+                            Element element,
+                            Attribute attribute) {
+                        if (skipElementAndChildren.contains(element.getName())) {
+                            return false;
+                        }
+                        final String attributeName = attribute.getName();
+                        if (skipAttributeNames.matches(element.getName(), attributeName)) {
+                            return true;
+                        }
+                        final ValueStatus valueStatus = attribute.getValueStatus("undefined");
+                        attribute.toString();
+                        if (valueStatus == ValueStatus.valid) {
+                            errln(
+                                    String.format(
+                                            "Can match 'undefined': type=%s\tancestors=%s\telement=%s\tattribute=%s\tmatch=%s",
+                                            dtdType,
+                                            ancestors,
+                                            element,
+                                            attributeName,
+                                            attribute.getMatchString()));
+                        } else {
+                            logln(
+                                    String.format(
+                                            "visiting: type=%s\tparent=%s\telement=%s\tancestors=%s\tmatch=%s",
+                                            dtdType,
+                                            ancestors,
+                                            element,
+                                            attributeName,
+                                            attribute.getMatchString()));
+                        }
+                        return true;
+                    }
+                };
+        new DtdData.DtdGuide(true, visitor).process();
     }
 }

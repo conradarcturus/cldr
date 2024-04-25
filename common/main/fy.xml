@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2023 Unicode, Inc.
+<!-- Copyright © 1991-2024 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
-SPDX-License-Identifier: Unicode-DFS-2016
+SPDX-License-Identifier: Unicode-3.0
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
@@ -552,7 +552,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<script type="Cakm" draft="contributed">Chakma</script>
 			<script type="Cans" draft="contributed">Verenigde Canadese Aboriginal-symbolen</script>
 			<script type="Cari" draft="contributed">Karysk</script>
-			<script type="Cham" draft="contributed">↑↑↑</script>
+			<script type="Cham" draft="contributed">Cham</script>
 			<script type="Cher" draft="contributed">Cherokee</script>
 			<script type="Cirt" draft="contributed">Cirth</script>
 			<script type="Copt" draft="contributed">Koptysk</script>
@@ -589,7 +589,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<script type="Hung" draft="contributed">Aldhongaars</script>
 			<script type="Inds" draft="contributed">Indus</script>
 			<script type="Ital" draft="contributed">Ald-italysk</script>
-			<script type="Jamo" draft="contributed">↑↑↑</script>
+			<script type="Jamo" draft="contributed">Jamo</script>
 			<script type="Java" draft="contributed">Javaansk</script>
 			<script type="Jpan" draft="contributed">Japans</script>
 			<script type="Jurc" draft="contributed">Jurchen</script>
@@ -3628,12 +3628,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<zone type="Europe/Istanbul">
 				<exemplarCity draft="contributed">Istanboel</exemplarCity>
 			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity draft="contributed">Oezjhorod</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity draft="contributed">Zaporizja</exemplarCity>
-			</zone>
 			<zone type="America/North_Dakota/Beulah">
 				<exemplarCity draft="contributed">Beulah, Noard-Dakota</exemplarCity>
 			</zone>
@@ -4250,11 +4244,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 					<daylight draft="contributed">Macause simmertiid</daylight>
 				</long>
 			</metazone>
-			<metazone type="Macquarie">
-				<long>
-					<standard draft="contributed">Macquarie-eilânske tiid</standard>
-				</long>
-			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic draft="contributed">Magadan-tiid</generic>
@@ -4628,9 +4617,9 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<defaultNumberingSystem draft="unconfirmed">↑↑↑</defaultNumberingSystem>
+		<defaultNumberingSystem draft="contributed">↑↑↑</defaultNumberingSystem>
 		<otherNumberingSystems>
-			<native draft="unconfirmed">↑↑↑</native>
+			<native draft="contributed">↑↑↑</native>
 		</otherNumberingSystems>
 		<minimumGroupingDigits draft="contributed">↑↑↑</minimumGroupingDigits>
 		<symbols numberSystem="latn">
@@ -4761,8 +4750,8 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 					<pattern type="100000000000000" count="other" draft="provisional">¤ 000 bln'.'</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
-			<unitPattern count="one">↑↑↑</unitPattern>
-			<unitPattern count="other">↑↑↑</unitPattern>
+			<unitPattern count="one">{0} {1}</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ADP">
@@ -5872,8 +5861,13 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				<displayName count="one" draft="contributed">↑↑↑</displayName>
 				<displayName count="other" draft="contributed">↑↑↑</displayName>
 			</currency>
-			<currency type="SLL">
+			<currency type="SLE">
 				<displayName draft="contributed">Sierraleoonse leone</displayName>
+				<displayName count="one" draft="contributed">↑↑↑</displayName>
+				<displayName count="other" draft="contributed">↑↑↑</displayName>
+			</currency>
+			<currency type="SLL">
+				<displayName draft="contributed">Sierraleoonse leone (1964—2022)</displayName>
 				<displayName count="one" draft="contributed">↑↑↑</displayName>
 				<displayName count="other" draft="contributed">↑↑↑</displayName>
 			</currency>

@@ -307,30 +307,19 @@ public class DataPage {
              */
             private boolean setTests(List<CheckStatus> testList) {
                 tests = ImmutableList.copyOf(testList);
-                // only consider non-example tests as notable.
                 boolean weHaveTests = false;
                 int errorCount = 0;
                 int warningCount = 0;
-                for (CheckStatus status : tests) {
-                    if (!status.getType().equals(CheckStatus.exampleType)) {
-                        // skip codefallback exemplar complaints (i.e. 'JPY'
-                        // isn't in exemplars).. they'll show up in missing
-                        if (DEBUG)
-                            System.err.println(
-                                    "err: "
-                                            + status.getMessage()
-                                            + ", test: "
-                                            + status.getClass()
-                                            + ", cause: "
-                                            + status.getCause()
-                                            + " on "
-                                            + xpath);
-                        weHaveTests = true;
-                        if (status.getType().equals(CheckStatus.errorType)) {
-                            errorCount++;
-                        } else if (status.getType().equals(CheckStatus.warningType)) {
-                            warningCount++;
-                        }
+                for (final CheckStatus status : tests) {
+                    logger.finest(() -> status + " on " + xpath);
+                    if (status.getType() == CheckStatus.exampleType) {
+                        continue; // does not count as an error or warning but included in payload
+                    }
+                    weHaveTests = true;
+                    if (status.getType().equals(CheckStatus.errorType)) {
+                        errorCount++;
+                    } else if (status.getType().equals(CheckStatus.warningType)) {
+                        warningCount++;
                     }
                 }
                 if (weHaveTests) {
@@ -759,6 +748,7 @@ public class DataPage {
                 CandidateItem shimItem = new CandidateItem(null);
                 List<CheckStatus> iTests = new ArrayList<>();
                 checkCldr.check(base_xpath_string, iTests, null);
+                STFactory.removeExcludedChecks(iTests);
                 if (!iTests.isEmpty()) {
                     // Got a bite.
                     if (shimItem.setTests(iTests)) {
@@ -875,6 +865,7 @@ public class DataPage {
                 List<CheckStatus> iTests = new ArrayList<>();
 
                 checkCldr.check(xpath, iTests, inheritedValue);
+                STFactory.removeExcludedChecks(iTests);
 
                 if (TRACE_TIME) {
                     System.err.println("@@6:" + (System.currentTimeMillis() - lastTime));
@@ -1355,7 +1346,8 @@ public class DataPage {
             CookieSession session,
             CLDRLocale locale,
             String prefix,
-            XPathMatcher matcher) {
+            XPathMatcher matcher,
+            TestResultBundle checkCldr) {
 
         SurveyMain sm =
                 CookieSession
@@ -1379,8 +1371,9 @@ public class DataPage {
             throw new InternalError("?!! ourSrc hsa no supplemental dir!");
         }
         synchronized (session) {
-            TestResultBundle checkCldr =
-                    sm.getSTFactory().getTestResult(locale, getOptions(session, locale));
+            if (checkCldr == null) {
+                checkCldr = sm.getSTFactory().getTestResult(locale, getSimpleOptions(locale));
+            }
             if (checkCldr == null) {
                 throw new InternalError("checkCldr == null");
             }
@@ -1419,8 +1412,22 @@ public class DataPage {
 
         final String org = session.getEffectiveCoverageLevel(locale.toString());
 
-        options = new Options(locale, SurveyMain.getTestPhase(), def, org);
+        options = getOptions(locale, def, org);
         return options;
+    }
+
+    private static CheckCLDR.Options getOptions(
+            CLDRLocale locale, final String defaultLevel, final String org) {
+        return new Options(locale, SurveyMain.getTestPhase(), defaultLevel, org);
+    }
+
+    /** Get options, but don't try to check user preferences */
+    public static CheckCLDR.Options getSimpleOptions(CLDRLocale locale) {
+        return new Options(
+                locale,
+                SurveyMain.getTestPhase(),
+                Level.COMPREHENSIVE.name(), /* localeType is not used?! */
+                "NOT USED");
     }
 
     private final BallotBox<User> ballotBox;
@@ -1935,6 +1942,7 @@ public class DataPage {
         List<CheckStatus> examplesResult = new ArrayList<>();
         if (checkCldr != null) {
             checkCldr.check(xpath, checkCldrResult, isExtraPath ? null : ourValue);
+            STFactory.removeExcludedChecks(checkCldrResult);
             checkCldr.getExamples(xpath, isExtraPath ? null : ourValue, examplesResult);
         }
         if (ourValue != null && ourValue.length() > 0) {
@@ -1966,6 +1974,7 @@ public class DataPage {
             if (avalue != null && checkCldr != null) {
                 List<CheckStatus> item2Result = new ArrayList<>();
                 checkCldr.check(xpath, item2Result, avalue);
+                STFactory.removeExcludedChecks(item2Result);
                 if (!item2Result.isEmpty()) {
                     item2.setTests(item2Result);
                 }

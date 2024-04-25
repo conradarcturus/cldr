@@ -431,6 +431,34 @@ public class DayPeriodInfo {
             return false;
         }
 
+        // Hack for French night1, CLDR-17132 for better fix
+        // Let night1 have the same name as morning1/am if night1 starts at 00:00
+        if ((dayPeriod1 == DayPeriod.night1
+                        && (dayPeriod2 == DayPeriod.morning1 || dayPeriod2 == DayPeriod.am))
+                || (dayPeriod2 == DayPeriod.night1
+                        && (dayPeriod1 == DayPeriod.morning1 || dayPeriod1 == DayPeriod.am))) {
+            if (dayPeriodsToSpans.get(DayPeriod.night1).size() == 1) {
+                for (Span s : dayPeriodsToSpans.get(DayPeriod.night1)) {
+                    if (s.start == MIDNIGHT) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        // Hack for fil evening1/night1, CLDR-17139 for better fix
+        // Let night1 have the same name as evening1 if night1 ends at 24:00
+        if ((dayPeriod1 == DayPeriod.night1 && dayPeriod2 == DayPeriod.evening1)
+                || (dayPeriod2 == DayPeriod.night1 && dayPeriod1 == DayPeriod.evening1)) {
+            if (dayPeriodsToSpans.get(DayPeriod.night1).size() == 1) {
+                for (Span s : dayPeriodsToSpans.get(DayPeriod.night1)) {
+                    if (s.end == DAY_LIMIT) {
+                        return false;
+                    }
+                }
+            }
+        }
+
         // we use the more lenient if they are mixed types
         if (type2 == Type.format) {
             type1 = Type.format;

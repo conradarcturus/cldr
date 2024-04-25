@@ -125,6 +125,7 @@ public class ChartUnitConversions extends Chart {
             UnitSystem sortingSystem = systems.iterator().next();
             switch (sortingSystem) {
                 case si:
+                case si_acceptable:
                     sortingSystem = UnitSystem.metric;
                     break;
                 case uksystem:
@@ -138,10 +139,11 @@ public class ChartUnitConversions extends Chart {
             all.add(sortKey);
 
             // get some formatted strings
+            // TODO: handle specials here, CLDR-16329 additional PR or follow-on ticket
 
             final String repeatingFactor =
                     targetInfo.unitInfo.factor.toString(FormatStyle.repeating);
-            final String basicFactor = targetInfo.unitInfo.factor.toString(FormatStyle.basic);
+            final String basicFactor = targetInfo.unitInfo.factor.toString(FormatStyle.approx);
             final String repeatingOffset =
                     targetInfo.unitInfo.offset.equals(Rational.ZERO)
                             ? ""

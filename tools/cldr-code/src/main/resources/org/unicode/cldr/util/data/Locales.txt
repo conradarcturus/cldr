@@ -207,7 +207,7 @@ Google	; nn	; Modern ; Nynorsk
 Google	;	no	;	modern	;	T2	Norwegian (Bokmål)
 Google	;	or	;	modern	;	T5	Odia
 Google	;	pa	;	modern	;	T4.1	Punjabi
-Google	;	pcm	;	modern	;	Nigerian Pidgin
+Google	;	pcm	;	moderate	;	Nigerian Pidgin
 Google	;	pl	;	modern	;	T1	Polish
 Google	;	ps	;	modern	;	T5	Pashto
 Google	;	pt	;	modern	;	T1	Brazilian Portuguese
@@ -283,7 +283,7 @@ Apple	;	kn	;	modern
 Apple	;	ko	;	modern
 Apple	;	lt	;	modern
 Apple	;	lv	;	modern
-Apple	;	mi	;	modern
+Apple	;	mi	;	moderate
 Apple	;	mk	;	modern
 Apple	;	ml	;	modern
 Apple	;	mr	;	modern
@@ -305,7 +305,7 @@ Apple	;	sv	;	modern
 Apple	;	ta	;	modern
 Apple	;	te	;	modern
 Apple	;	th	;	modern
-Apple	;	to	;	modern
+Apple	;	to	;	moderate
 Apple	;	tr	;	modern
 Apple	;	uk	;	modern
 Apple	;	ur	;	modern
@@ -485,7 +485,7 @@ Cldr  ; cv  ; basic
 Cldr	;	en_AU	;	modern
 Cldr	;	es_MX	;	modern
 Cldr	;	fr_CA	;	modern
-Cldr  ; mi  ; modern
+Cldr  ; mi  ; moderate
 Cldr	;	zh_Hant_HK	;	modern
 
 #Cldr	other (from Google)
@@ -516,7 +516,7 @@ Cldr	; su ; basic ; Sundanese (script TBD)
 Cldr  ; ks_Deva ; basic ; Kashmiri (Devanagari)
 Cldr	; sd_Deva ; basic ; Sindhi (Devanagari script)
 # Cldr	; cad ; basic ; Caddo
-Cldr	; pcm ; modern ; Nigerian Pidgin
+Cldr	; pcm ; moderate ; Nigerian Pidgin
 
 Cldr	;	bgc	;	basic	;	Haryanvi
 Cldr	;	bho	;	basic	;	Bhojpuri
@@ -533,11 +533,11 @@ Cldr  ; hsb ; modern ; Upper Sorbian
 Cldr  ; dsb ; modern  ; Lower Sorbian
 Cldr  ; gd  ; modern  ; Scottish Gaelic
 Cldr  ; chr ; modern  ; Cherokee
-Cldr	;	to	;	modern ; Tongan
+Cldr	;	to	;	moderate ; Tongan
 Cldr  ; yue_Hans  ; modern  ; Cantonese (Simplified)
 
 Cldr  ; fo  ; moderate  ; Faroese
-Cldr  ; qu  ; modern  ; Quechua
+Cldr  ; qu  ; moderate  ; Quechua
 Cldr  ; br  ; moderate  ; Breton
 Cldr  ; sc  ; moderate  ; Sardinian
 Cldr  ; kgp ; moderate  ; Kaingang
@@ -674,7 +674,6 @@ Microsoft	;	pl	;	modern	;	Polish
 Microsoft	;	ps	;	modern	;	Pashto
 Microsoft	;	pt	;	modern	;	Portuguese (Brazil)
 Microsoft	;	pt_PT	;	modern	;	Portuguese (Portugal)
-Microsoft	;	qu	;	modern	;	Quechua
 Microsoft	;	ro	;	modern	;	Romanian
 Microsoft	;	ru	;	modern	;	Russian
 Microsoft	;	sd	;	modern	;	Sindhi
@@ -918,5 +917,5 @@ special ;	sr_Latn	;	modern	;	Serbian (Latn)
 special ;	yrl	;	moderate	;	Nheengatu
 special ;	yue_Hans	;	modern	;	Cantonese (Simplified)
 special ; uz_Cyrl ; basic ; Uzbek (Cyrillic)
-special	;	to	;	modern ; Tongan
-special  ; qu  ; modern  ; Quechua
+special	;	to	;	moderate ; Tongan
+special  ; qu  ; moderate  ; Quechua

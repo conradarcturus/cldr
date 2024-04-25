@@ -55,34 +55,7 @@ public class ElementAttributeInfo {
                     }
                 }
                 if (result == null) {
-                    result = new HashMap<>();
-                    // pick short files that are in repository
-                    result.put(
-                            DtdType.ldml,
-                            new ElementAttributeInfo(
-                                    canonicalCommonDirectory + "/main/root.xml", DtdType.ldml));
-                    result.put(
-                            DtdType.supplementalData,
-                            new ElementAttributeInfo(
-                                    canonicalCommonDirectory + "/supplemental/plurals.xml",
-                                    DtdType.supplementalData));
-                    result.put(
-                            DtdType.ldmlBCP47,
-                            new ElementAttributeInfo(
-                                    canonicalCommonDirectory + "/bcp47/calendar.xml",
-                                    DtdType.ldmlBCP47));
-                    result.put(
-                            DtdType.keyboard,
-                            new ElementAttributeInfo(
-                                    canonicalCommonDirectory
-                                            + "/../keyboards/android/ar-t-k0-android.xml",
-                                    DtdType.keyboard));
-                    result.put(
-                            DtdType.platform,
-                            new ElementAttributeInfo(
-                                    canonicalCommonDirectory
-                                            + "/../keyboards/android/_platform.xml",
-                                    DtdType.keyboard));
+                    result = makeElementAttributeInfoMap(canonicalCommonDirectory);
                     cache.put(commonDirectory, result);
                     cache.put(canonicalCommonDirectory, result);
                 }
@@ -90,7 +63,52 @@ public class ElementAttributeInfo {
                 throw new ICUUncheckedIOException(e);
             }
         }
-        return result.get(dtdType);
+        final ElementAttributeInfo eai = result.get(dtdType);
+        if (eai == null) {
+            throw new NullPointerException(
+                    "ElementAttributeInfo.getInstance(…,"
+                            + dtdType.name()
+                            + ") returns null, please update this function");
+        }
+        return eai;
+    }
+
+    private static void addElementAttributeInfo(
+            Map<DtdType, ElementAttributeInfo> result, DtdType type, String path)
+            throws IOException {
+        if (!new File(path).canRead()) {
+            System.err.println(
+                    "ElementAttributeInfo: Warning: Sample file did not exist: "
+                            + path
+                            + " for DtdType "
+                            + type.name());
+            return; // file doesn't exist.
+        }
+        result.put(type, new ElementAttributeInfo(path, type));
+    }
+
+    private static Map<DtdType, ElementAttributeInfo> makeElementAttributeInfoMap(
+            String canonicalCommonDirectory) throws IOException {
+        Map<DtdType, ElementAttributeInfo> result;
+        result = new HashMap<>();
+        // pick short files that are in repository
+        // Add to this when a DTD is added
+        addElementAttributeInfo(result, DtdType.ldml, canonicalCommonDirectory + "/main/root.xml");
+        addElementAttributeInfo(
+                result,
+                DtdType.supplementalData,
+                canonicalCommonDirectory + "/supplemental/plurals.xml");
+        addElementAttributeInfo(
+                result, DtdType.ldmlBCP47, canonicalCommonDirectory + "/bcp47/calendar.xml");
+        addElementAttributeInfo(
+                result,
+                DtdType.keyboard3,
+                canonicalCommonDirectory + "/../keyboards/3.0/fr-t-k0-test.xml");
+        addElementAttributeInfo(
+                result,
+                DtdType.keyboardTest3,
+                canonicalCommonDirectory + "/../keyboards/test/fr-t-k0-test-test.xml");
+        return result;
     }
 
     // static {
@@ -117,13 +135,14 @@ public class ElementAttributeInfo {
             is.setSystemId(filename);
             // xmlReader.setContentHandler(me);
             // xmlReader.setErrorHandler(me);
-            xmlReader.parse(is);
+            xmlReader.parse(DoctypeXmlStreamWrapper.wrap(is));
             this.elementAttribute2Data =
                     Collections.unmodifiableMap(getElementAttribute2Data()); // TODO, protect rows
             getElement2Children().freeze();
             getElement2Parents().freeze();
             getElement2Attributes().freeze();
         } catch (Exception e) {
+            // TODO: why is this being caught here?
             e.printStackTrace();
         } finally {
             fis.close();

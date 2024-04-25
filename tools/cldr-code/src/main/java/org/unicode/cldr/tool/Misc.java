@@ -8,7 +8,7 @@
  */
 package org.unicode.cldr.tool;
 
-import com.ibm.icu.dev.tool.UOption;
+import com.ibm.icu.dev.tool.shared.UOption;
 import com.ibm.icu.impl.Utility;
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.text.Collator;
@@ -314,7 +314,7 @@ public class Misc {
                     String zone = it.next();
                     TimeZone tzone = TimeZone.getTimeZone(zone);
                     int stdOffset = tzone.getRawOffset();
-                    Integer standardOffset = new Integer(-stdOffset);
+                    Integer standardOffset = -stdOffset;
                     String name = tzf.getFormattedZone(zone, "vvvv", false, stdOffset, false);
                     String gmt = tzf.getFormattedZone(zone, "ZZZZ", false, stdOffset, false);
                     String fullName = "(" + gmt + ") " + (zone.startsWith("Etc") ? "" : name);

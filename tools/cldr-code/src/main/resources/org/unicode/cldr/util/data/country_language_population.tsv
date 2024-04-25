@@ -364,6 +364,7 @@ Estonia	EE	"1,244,288"	100%	"41,650,000,000"	official	Estonian	et	71%
 Estonia	EE	"1,244,288"	100%	"41,650,000,000"		Finnish	fi	21%
 Estonia	EE	"1,244,288"	100%	"41,650,000,000"		Russian	ru	56%
 Estonia	EE	"1,244,288"	100%	"41,650,000,000"		Võro	vro	5.7%
+Estonia	EE	"1,244,288"	0%	"41,650,000,000"		Interlingue	ie	1	99%
 Eswatini	SZ	"1,087,200"	88%	"11,600,000,000"	official	English	en	80%			https://www.cia.gov/cia/publications/factbook/geos/wz.html
 Eswatini	SZ	"1,087,200"	88%	"11,600,000,000"	official	Swati	ss	58%
 Eswatini	SZ	"1,087,200"	88%	"11,600,000,000"		Tsonga	ts	"18,500"
@@ -695,6 +696,7 @@ Italy	IT	"62,246,674"	99%	"2,317,000,000,000"		Sassarese Sardinian	sdc	"107,000"
 Italy	IT	"62,246,674"	99%	"2,317,000,000,000"		Sicilian	scn	"511,000"	5%		5% writing pop estimated in absence of other data; literacy rate reported at ~8%
 Italy	IT	"62,246,674"	99%	"2,317,000,000,000"	recognized	Slovenian	sl	"108,000"			in Trieste and  Gorizia
 Italy	IT	"62,246,674"	99%	"2,317,000,000,000"	official_regional	Venetian	vec	"803,000"			http://www.orbilat.com/Languages/Venetan/Venetan.html - est 50% pop of Veneto area
+Italy	IT	"62,246,674"	99%	"2,317,000,000,000"	recognized	Ladin	lld	"30,000"			https://en.wikipedia.org/wiki/Ladin_language population figure from CLDR-17483 ticket
 Jamaica	JM	"2,812,090"	87%	"26,060,000,000"	official	English	en	98%
 Jamaica	JM	"2,812,090"	87%	"26,060,000,000"		Jamaican Creole English	jam	95%
 Japan	JP	"126,168,156"	99%	"5,443,000,000,000"		Central Okinawan	ryu	"971,000"	5%		5% writing pop estimated in absence of other data; Japanese is lingua franca here

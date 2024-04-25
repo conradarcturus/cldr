@@ -8,7 +8,7 @@ package org.unicode.cldr.tool;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import com.ibm.icu.dev.tool.UOption;
+import com.ibm.icu.dev.tool.shared.UOption;
 import com.ibm.icu.impl.Utility;
 import com.ibm.icu.text.Collator;
 import com.ibm.icu.text.DateTimePatternGenerator;
@@ -79,6 +79,7 @@ import org.unicode.cldr.util.SupplementalDataInfo;
 // import org.unicode.cldr.util.Log;
 import org.unicode.cldr.util.SupplementalDataInfo.PluralInfo;
 import org.unicode.cldr.util.SupplementalDataInfo.PluralInfo.Count;
+import org.unicode.cldr.util.VoteResolver;
 import org.unicode.cldr.util.XMLSource;
 import org.unicode.cldr.util.XPathParts;
 import org.unicode.cldr.util.XPathParts.Comments;
@@ -328,8 +329,8 @@ public class CLDRModify {
             System.out.println(HELP_TEXT1 + fixList.showHelp() + HELP_TEXT2);
             return;
         }
-        checkSuboptions(options[FIX], fixList.getOptions());
-        checkSuboptions(options[JOIN_ARGS], allMergeOptions);
+        checkSuboptions(FIX, fixList.getOptions());
+        checkSuboptions(JOIN_ARGS, allMergeOptions);
         String recurseOnDirectories = options[ALL_DIRS].value;
         boolean makeResolved = options[RESOLVE].doesOccur; // Utility.COMMON_DIRECTORY + "main/";
 
@@ -637,7 +638,8 @@ public class CLDRModify {
             Splitter.on(Pattern.compile("[,;|]")).trimResults().omitEmptyStrings();
     protected static final boolean NUMBER_SYSTEM_HACK = true;
 
-    private static void checkSuboptions(UOption givenOptions, UnicodeSet allowedOptions) {
+    private static void checkSuboptions(int i, UnicodeSet allowedOptions) {
+        UOption givenOptions = options[i];
         if (givenOptions.doesOccur && !allowedOptions.containsAll(givenOptions.value)) {
             throw new IllegalArgumentException(
                     "Illegal sub-options for "
@@ -646,6 +648,15 @@ public class CLDRModify {
                             + new UnicodeSet().addAll(givenOptions.value).removeAll(allowedOptions)
                             + CldrUtility.LINE_SEPARATOR
                             + "Use -? for help.");
+        }
+        if (i == FIX && givenOptions.value != null) {
+            final UnicodeSet allowedFilters = new UnicodeSet().add('P').add('Q').add('V');
+            for (char c : givenOptions.value.toCharArray()) {
+                if (!allowedFilters.contains(c)) {
+                    throw new IllegalArgumentException(
+                            "The filter " + c + " is currently disabled, see CLDR-17144");
+                }
+            }
         }
     }
 
@@ -2090,6 +2101,8 @@ public class CLDRModify {
                     Set<String> available = Annotations.getAllAvailable();
                     TreeSet<String> sorted = new TreeSet<>(Collator.getInstance(ULocale.ROOT));
                     CLDRFile resolved;
+                    Set<String> handledCharacters = new HashSet<>();
+                    boolean isTop;
 
                     @Override
                     public void handleStart() {
@@ -2099,6 +2112,8 @@ public class CLDRModify {
                                     "no annotations available, probably wrong directory");
                         }
                         resolved = factory.make(localeID, true);
+                        CLDRLocale parent = CLDRLocale.getInstance(localeID).getParent();
+                        isTop = CLDRLocale.ROOT.equals(parent);
                     }
 
                     @Override
@@ -2112,13 +2127,33 @@ public class CLDRModify {
                         //      we will copy honderd punte into the list of keywords.
                         String fullpath = cldrFileToFilter.getFullXPath(xpath);
                         XPathParts parts = XPathParts.getFrozenInstance(fullpath);
+                        String cp = parts.getAttributeValue(2, "cp");
                         String type = parts.getAttributeValue(2, "type");
-                        if (type == null) {
-                            return; // no TTS, so keywords, skip
+                        if (!isTop) {
+                            // If we run into the keyword first (or only the keywords)
+                            // we construct the tts version for consistent processing
+                            // and mark it as handled. We only do this for non-top locales,
+                            // because if the top locales don't have a tts we're not going to add
+                            // anyway.
+                            if (handledCharacters.contains(cp)) {
+                                return; // already handled
+                            }
+                            // repeat the above, but for the tts path
+                            xpath = parts.cloneAsThawed().setAttribute(2, "type", "tts").toString();
+                            fullpath = cldrFileToFilter.getFullXPath(xpath);
+                            parts = XPathParts.getFrozenInstance(fullpath);
+                            type = parts.getAttributeValue(2, "type");
+                            // mark the character as seen
+                            handledCharacters.add(cp);
+                        } else if (type == null) {
+                            return; // no TTS, and top level, so skip
                         }
-
-                        XPathParts keywordParts = parts.cloneAsThawed().removeAttribute(2, "type");
-                        String keywordPath = keywordParts.toString();
+                        String keywordPath =
+                                parts.cloneAsThawed()
+                                        .removeAttribute(2, "type")
+                                        .toString(); // construct the path without tts
+                        String distinguishingKeywordPath =
+                                CLDRFile.getDistinguishingXPath(keywordPath, null);
                         String rawKeywordValue = cldrFileToFilter.getStringValue(keywordPath);
 
                         // skip if keywords AND name are inherited
@@ -2132,23 +2167,27 @@ public class CLDRModify {
 
                         // skip if the name is not above root
                         String nameSourceLocale = resolved.getSourceLocaleID(xpath, null);
-                        if ("root".equals(nameSourceLocale)
+                        if (XMLSource.ROOT_ID.equals(nameSourceLocale)
                                 || XMLSource.CODE_FALLBACK_ID.equals(nameSourceLocale)) {
                             return;
                         }
 
                         String name = resolved.getStringValue(xpath);
                         String keywordValue = resolved.getStringValue(keywordPath);
-                        String sourceLocaleId = resolved.getSourceLocaleID(keywordPath, null);
+                        String sourceLocaleId =
+                                resolved.getSourceLocaleID(distinguishingKeywordPath, null);
                         sorted.clear();
                         sorted.add(name);
+
                         List<String> items;
                         if (!sourceLocaleId.equals(XMLSource.ROOT_ID)
                                 && !sourceLocaleId.equals(XMLSource.CODE_FALLBACK_ID)) {
                             items = Annotations.splitter.splitToList(keywordValue);
                             sorted.addAll(items);
                         }
+
                         DisplayAndInputProcessor.filterCoveredKeywords(sorted);
+                        DisplayAndInputProcessor.filterKeywordsDifferingOnlyInCase(sorted);
                         String newKeywordValue = Joiner.on(" | ").join(sorted);
                         if (!newKeywordValue.equals(keywordValue)) {
                             replace(keywordPath, keywordPath, newKeywordValue);
@@ -2871,11 +2910,11 @@ public class CLDRModify {
 
                     @Override
                     public void handleStart() {
-                        // skip if the locale id's parent isn't root. That is, it must be at level-1
-                        // locale.
+                        // skip if the locale is root.
                         skip = getLocaleID().equals(XMLSource.ROOT_ID);
                         if (!skip) {
                             parentId = LocaleIDParser.getParent(getLocaleID());
+                            // This locale is "L1" (level one) if its parent is root.
                             isL1 = parentId.equals(XMLSource.ROOT_ID);
                             parentFile = null; // lazy evaluate
                         }
@@ -2926,14 +2965,19 @@ public class CLDRModify {
                                     parentFile = factory.make(parentId, true);
                                 }
                                 String parentValue = parentFile.getStringValueWithBailey(xpath);
-                                if (!parentValue.equals(baileyValue)) {
-                                    harden = true;
+                                if (!baileyValue.equals(parentValue)) {
+                                    harden = true; // true if parentValue == null, see comment below
                                 }
                                 message2 = "; L2+";
 
                                 // Problem case: the parent value is null (not inheritance marker)
                                 // but the child value is ^^^.
                                 // See if we need to fix that.
+                                // Currently harden is true if parentValue is null, which, as of
+                                // 2023-09-20, happens here for only two paths, both in locale
+                                // en_AU:
+                                // //ldml/dates/calendars/calendar[@type="islamic"]/dateTimeFormats/availableFormats/dateFormatItem[@id="yMEd"]
+                                // //ldml/dates/calendars/calendar[@type="islamic"]/dateTimeFormats/availableFormats/dateFormatItem[@id="yMd"]
                             }
                             if (harden) {
                                 String fullPath = cldrFileToFilter.getFullXPath(xpath);
@@ -3003,6 +3047,68 @@ public class CLDRModify {
                         fullParts = fullParts.cloneAsThawed();
                         fullParts.setAttribute(-1, "draft", "provisional");
                         replace(fullPath, fullParts.toString(), value, "Downgrade to provisional");
+                    }
+                });
+
+        fixList.add(
+                'G',
+                "upGrade basic paths to contributed",
+                new CLDRFilter() {
+
+                    // boolean skipLocale = false;
+                    CoverageLevel2 coverageLeveler;
+                    final CLDRFile.DraftStatus TARGET_STATUS = DraftStatus.contributed;
+                    final Level TARGET_LEVEL = Level.BASIC;
+
+                    @Override
+                    public void handleStart() {
+                        super.handleSetup();
+                        String locale = getLocaleID();
+                        // skipLocale = false;
+                        final CLDRConfig config = CLDRConfig.getInstance();
+                        coverageLeveler =
+                                CoverageLevel2.getInstance(
+                                        config.getSupplementalDataInfo(), locale);
+                    }
+
+                    @Override
+                    public void handlePath(String xpath) {
+                        // if (skipLocale) { // fast path
+                        //     return;
+                        // }
+                        if (!TARGET_LEVEL.isAtLeast(coverageLeveler.getLevel(xpath))) {
+                            return; // skip
+                        }
+                        String fullPath = cldrFileToFilter.getFullXPath(xpath);
+                        final CLDRFile.DraftStatus oldDraft =
+                                CLDRFile.DraftStatus.forXpath(fullPath);
+                        if (oldDraft.compareTo(TARGET_STATUS) > 0) {
+                            return; // already at contributed or better
+                        }
+                        // Now we need the value
+                        final String value = cldrFileToFilter.getStringValue(xpath);
+                        final String newPath = TARGET_STATUS.updateXPath(fullPath);
+                        replace(fullPath, newPath, value, "Upgrade to " + TARGET_STATUS.name());
+                    }
+                });
+
+        fixList.add(
+                'Z',
+                "Zero lateral: convert inheritance marker to specific value if inheritance would be lateral/problematic",
+                new CLDRFilter() {
+                    @Override
+                    public void handlePath(String xpath) {
+                        String value = cldrFileToFilter.getStringValue(xpath);
+                        if (!CldrUtility.INHERITANCE_MARKER.equals(value)) {
+                            return;
+                        }
+                        String newValue =
+                                VoteResolver.reviseInheritanceAsNeeded(xpath, value, getResolved());
+                        if (value.equals(newValue)) {
+                            return;
+                        }
+                        String fullXPath = cldrFileToFilter.getFullXPath(xpath);
+                        replace(fullXPath, fullXPath, newValue);
                     }
                 });
     }
