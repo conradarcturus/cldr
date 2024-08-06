@@ -729,6 +729,7 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 		<exemplarCharacters type="auxiliary">[ц щ ы ь]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="unconfirmed">[А Б В Г Ғ Д Е Ж З И Й К Қ Л М Н О П Р С Т УЎ Ф Х Ҳ Ч Ш Ъ Э Ю Я]</exemplarCharacters>
 		<exemplarCharacters type="numbers">[  \- ‑ , % ‰ + 0 1 2 3 4 5 6 7 8 9]</exemplarCharacters>
+		<exemplarCharacters type="punctuation">[\- ‑ , ; : ! ? . ( ) \[ \] \{ \} ‘ ’ “ ”]</exemplarCharacters>
 		<ellipsis type="final">↑↑↑</ellipsis>
 		<ellipsis type="initial">↑↑↑</ellipsis>
 		<ellipsis type="medial">↑↑↑</ellipsis>
@@ -2514,18 +2515,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<symbols numberSystem="arabext">
-			<decimal>↑↑↑</decimal>
-			<group>↑↑↑</group>
-			<percentSign>↑↑↑</percentSign>
-			<plusSign>+</plusSign>
-			<minusSign>-</minusSign>
-			<exponential>↑↑↑</exponential>
-			<superscriptingExponent>↑↑↑</superscriptingExponent>
-			<perMille>↑↑↑</perMille>
-			<infinity>↑↑↑</infinity>
-			<nan>ҳақиқий сон эмас</nan>
-		</symbols>
 		<symbols numberSystem="latn">
 			<decimal>,</decimal>
 			<group> </group>
@@ -2538,13 +2527,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 			<infinity>↑↑↑</infinity>
 			<nan>ҳақиқий сон эмас</nan>
 		</symbols>
-		<decimalFormats numberSystem="arabext">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>↑↑↑</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
 		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
@@ -2608,13 +2590,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
-		<scientificFormats numberSystem="arabext">
-			<scientificFormatLength>
-				<scientificFormat>
-					<pattern>↑↑↑</pattern>
-				</scientificFormat>
-			</scientificFormatLength>
-		</scientificFormats>
 		<scientificFormats numberSystem="latn">
 			<scientificFormatLength>
 				<scientificFormat>
@@ -2622,13 +2597,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
-		<percentFormats numberSystem="arabext">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern>↑↑↑</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
 		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
@@ -2636,14 +2604,6 @@ CLDR data files are interpreted according to the LDML specification (http://unic
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
-		<currencyFormats numberSystem="arabext">
-			<currencyFormatLength>
-				<currencyFormat type="standard">
-					<pattern>↑↑↑</pattern>
-					<pattern alt="noCurrency" draft="provisional">↑↑↑</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat type="standard">
