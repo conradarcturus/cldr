@@ -387,6 +387,9 @@ public class ConvertLanguageData {
             }
 
             for (BasicLanguageData bld : newData.values()) {
+                // List<String> scripts = Collections.sort(Collectors.toList(bld.getScripts()));
+                // List<String> territories =
+                // Collections.sort(Collectors.toList(bld.getTerritories()));
                 Set<String> scripts = bld.getScripts();
                 Set<String> territories = bld.getTerritories();
                 BasicLanguageData.Type status = bld.getType();
@@ -396,11 +399,13 @@ public class ConvertLanguageData {
                                 + "\""
                                 + (scripts.isEmpty()
                                         ? ""
-                                        : " scripts=\"" + CldrUtility.join(scripts, " ") + "\"")
+                                        : " scripts=\""
+                                                + CldrUtility.joinSorted(scripts, " ")
+                                                + "\"")
                                 + (territories.isEmpty()
                                         ? ""
                                         : " territories=\""
-                                                + CldrUtility.join(territories, " ")
+                                                + CldrUtility.joinSorted(territories, " ")
                                                 + "\"")
                                 + (status == BasicLanguageData.Type.primary
                                         ? ""
@@ -2450,10 +2455,12 @@ public class ConvertLanguageData {
                         + "\""
                         + (scripts.size() == 0
                                 ? ""
-                                : " scripts=\"" + CldrUtility.join(scripts, " ") + "\"")
+                                : " scripts=\"" + CldrUtility.joinSorted(scripts, " ") + "\"")
                         + (territories.size() == 0
                                 ? ""
-                                : " territories=\"" + CldrUtility.join(territories, " ") + "\"")
+                                : " territories=\""
+                                        + CldrUtility.joinSorted(territories, " ")
+                                        + "\"")
                         + (type == BasicLanguageData.Type.primary ? "" : " alt=\"" + type + "\"")
                         + "/>");
     }

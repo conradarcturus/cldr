@@ -615,6 +615,24 @@ public class CldrUtility {
         return a;
     }
 
+    public static String joinSorted(Set<String> c, String separator) {
+        Comparator<String> defaultComparator =
+                new Comparator<String>() {
+                    @Override
+                    public int compare(String o1, String o2) {
+                        return o1.compareTo(o2);
+                    }
+                };
+        Set<String> cSorted = new TreeSet(defaultComparator);
+        cSorted.addAll(c);
+        return join(cSorted, separator, null);
+    }
+
+    // public static String joinSorted(ArrayList<String> c, String separator) {
+    //     List<String> cSorted = Collections.sort(new ArrayList<String>(c));
+    //     return join(cSorted, separator, null);
+    // }
+
     public static <T> String join(Collection<T> c, String separator) {
         return join(c, separator, null);
     }
