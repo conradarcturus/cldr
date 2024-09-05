@@ -3900,16 +3900,17 @@ XXX Code for transations where no currency is involved
 			<languagePopulation type="btv" populationPercent="0.019"/>	<!--Bateri-->
 		</territory>
 		<territory type="PL" gdp="1616000000000" literacyPercent="99.7" population="38746300">	<!--Poland-->
-			<languagePopulation type="pl" populationPercent="96" officialStatus="official"/>	<!--Polish-->
-			<languagePopulation type="en" populationPercent="33" references="R1277"/>	<!--English-->
-			<languagePopulation type="de" populationPercent="19" officialStatus="official_regional" references="R1277"/>	<!--German-->
-			<languagePopulation type="ru" populationPercent="18"/>	<!--Russian-->
-			<languagePopulation type="szl" populationPercent="1.3"/>	<!--Silesian-->
+			<languagePopulation type="pl" populationPercent="100" officialStatus="official" references="R1337"/>	<!--Polish-->
+			<languagePopulation type="en" populationPercent="27" references="R1213"/>	<!--English-->
+			<languagePopulation type="de" populationPercent="5" officialStatus="official_regional" references="R1213"/>	<!--German-->
+			<languagePopulation type="ru" populationPercent="5" references="R1213"/>	<!--Russian-->
+			<languagePopulation type="szl" populationPercent="1.2" references="R1337"/>	<!--Silesian-->
 			<languagePopulation type="be" populationPercent="0.58"/>	<!--Belarusian-->
-			<languagePopulation type="uk" populationPercent="0.39"/>	<!--Ukrainian-->
-			<languagePopulation type="csb" populationPercent="0.13" officialStatus="official_regional" references="R1213"/>	<!--Kashubian-->
-			<languagePopulation type="sli" populationPercent="0.031"/>	<!--Lower Silesian-->
+			<languagePopulation type="uk" populationPercent="0.4"/>	<!--Ukrainian-->
+			<languagePopulation type="csb" populationPercent="0.23" officialStatus="official_regional" references="R1337"/>	<!--Kashubian-->
+			<languagePopulation type="sli" populationPercent="0.032"/>	<!--Lower Silesian-->
 			<languagePopulation type="lt" populationPercent="0.021" officialStatus="official_regional" references="R1258"/>	<!--Lithuanian-->
+			<languagePopulation type="rue" populationPercent="0.016" references="R1337"/>	<!--Rusyn-->
 			<languagePopulation type="prg" populationPercent="0.0001"/>	<!--Prussian-->
 		</territory>
 		<territory type="PM" gdp="261300000" literacyPercent="99" population="5132">	<!--St. Pierre & Miquelon-->
@@ -5699,7 +5700,7 @@ XXX Code for transations where no currency is involved
 		<reference type="R1210">percentage calculated from http://www.spanishcourses.info/Mains/SpanishSpoken_EN.htm , see also http://www.spanishseo.org/resources/worldwide-spanish-speaking-population</reference>
 		<reference type="R1211" uri="https://www.cia.gov/library/publications/the-world-factbook/geos/gr.html">[missing]</reference>
 		<reference type="R1212">www.amar.org.ir</reference>
-		<reference type="R1213" uri="http://ec.europa.eu/education/languages/archive/languages/langmin/euromosaic/pol3_en.html">- regional lang community status, taught in some schools</reference>
+		<reference type="R1213" uri="https://europa.eu/eurobarometer/surveys/detail/2979">Eurobarometer 2023 Poland &quot;which other language, if any, do you speak well enough in order to be able to have a conversation?&quot;</reference>
 		<reference type="R1214" uri="http://www.tatar.ru/">- 52.9% of Tatarstan is ethnic Tatar, the pop figure is an upper bound</reference>
 		<reference type="R1215"> http://en.wikipedia.org/wiki/Interlingua#Community Has a regular conf in Sweden, also Brazil; an auxiliary language with tiny population worldwide</reference>
 		<reference type="R1216">This is base pop for &quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;fub&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot; lang code; ff shows as a macrolanguage</reference>
@@ -5763,7 +5764,6 @@ XXX Code for transations where no currency is involved
 		<reference type="R1274" uri="http://www.ethnologue.com/language/mgh">but no literacy data</reference>
 		<reference type="R1275" uri="http://www.ethnologue.com/language/pcm">Including 1st and 2nd lang speakers</reference>
 		<reference type="R1276" uri="http://www.ethnologue.com/show_language.asp?code=bin">[missing]</reference>
-		<reference type="R1277" uri="http://en.wikipedia.org/wiki/German_minority_in_Poland">regional-official in part of Opole Voivodeship; in Poland 325 schools with primary instr in German, estimate 37000 students. Real figure probably higher.</reference>
 		<reference type="R1278" uri="https://en.wikipedia.org/wiki/Armenians_in_Russia">Census figures cited there seem to put Armenian using pop between 50-75%. Using 50%.</reference>
 		<reference type="R1279" uri="https://en.wikipedia.org/wiki/Religion_in_russia#Russian_Orthodoxy">[missing]</reference>
 		<reference type="R1280" uri="http://www.ethnologue.com/language/nus">unknown literacy</reference>
@@ -5823,5 +5823,6 @@ XXX Code for transations where no currency is involved
 		<reference type="R1334" uri="https://en.wikipedia.org/wiki/Laz_people#cite_note-ethnologue-1">[missing]</reference>
 		<reference type="R1335" uri="https://en.wikipedia.org/wiki/Greeks_in_Russia_and_Ukraine#cite_ref-15">Greek population in Russia -- most ancestrally used Pontic Greek -- modern usage almost certainly has dropped off but we don't have clear statistics on current usage.</reference>
 		<reference type="R1336" uri="https://joshuaproject.net/people_groups/14444/TU">[missing]</reference>
+		<reference type="R1337" uri="https://stat.gov.pl/spisy-powszechne/nsp-2021/nsp-2021-wyniki-ostateczne/">Languages spoken at home in the 2021 Polish Census</reference>
 	</references>
 </supplementalData>

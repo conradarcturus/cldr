@@ -1070,17 +1070,18 @@ Philippines	PH	"105,893,381"	95%	"877,200,000,000"		Tagbanwa	tbw	"10,000"	36%		h
 Philippines	PH	"105,893,381"	95%	"877,200,000,000"	official_regional	Tausug	tsg	"1,150,000"
 Philippines	PH	"105,893,381"	95%	"877,200,000,000"	official_regional	Waray	war	"3,110,000"
 Pitcairn Islands	PN	54	99%	"2,426,000"	official	English	en	46
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"		Belarusian	be	"222,000"
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"		English	en	33%			"http://en.wikipedia.org/wiki/German_minority_in_Poland regional-official in part of Opole Voivodeship; in Poland 325 schools with primary instr in German, estimate 37000 students. Real figure probably higher."
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"	official_regional	German	de	19%			"http://en.wikipedia.org/wiki/German_minority_in_Poland regional-official in part of Opole Voivodeship; in Poland 325 schools with primary instr in German, estimate 37000 students. Real figure probably higher."
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"	official_regional	Kashubian	csb	"49,900"			"http://ec.europa.eu/education/languages/archive/languages/langmin/euromosaic/pol3_en.html - regional lang community status, taught in some schools"
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"	official_regional	Lithuanian	lt	"8,000"			"http://en.wikipedia.org/wiki/Lithuanian_minority_in_Poland , Podlaskie Voivodeship "
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"		Lower Silesian	sli	"12,000"
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"	official	Polish	pl	96%
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"		Russian	ru	18%
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"		Silesian	szl	"509,000"
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"		Ukrainian	uk	"151,000"
-Poland	PL	"38,420,687"	100%	"1,126,000,000,000"		Prussian	prg	"50"
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"		Belarusian	be	"222,000"
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"		English	en	27%			https://europa.eu/eurobarometer/surveys/detail/2979 Eurobarometer 2023 Poland "which other language, if any, do you speak well enough in order to be able to have a conversation?"
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"	official_regional	German	de	5%			https://europa.eu/eurobarometer/surveys/detail/2979 Eurobarometer 2023 Poland "which other language, if any, do you speak well enough in order to be able to have a conversation?"
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"	official_regional	Kashubian	csb	"89,198"			https://stat.gov.pl/spisy-powszechne/nsp-2021/nsp-2021-wyniki-ostateczne/ Languages spoken at home in the 2021 Polish Census
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"	official_regional	Lithuanian	lt	"8,000"			"http://en.wikipedia.org/wiki/Lithuanian_minority_in_Poland , Podlaskie Voivodeship "
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"		Lower Silesian	sli	"12,000"
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"	official	Polish	pl	99.55%			https://stat.gov.pl/spisy-powszechne/nsp-2021/nsp-2021-wyniki-ostateczne/ Languages spoken at home in the 2021 Polish Census
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"		Russian	ru	5%			https://europa.eu/eurobarometer/surveys/detail/2979 Eurobarometer 2023 Poland "which other language, if any, do you speak well enough in order to be able to have a conversation?"
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"		Silesian	szl	"467,145"			https://stat.gov.pl/spisy-powszechne/nsp-2021/nsp-2021-wyniki-ostateczne/ Languages spoken at home in the 2021 Polish Census
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"		Ukrainian	uk	"151,000"
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"		Prussian	prg	"50"
+Poland	PL	"38,036,118"	100%	"1,126,000,000,000"		Rusyn	rue	"6,147"			https://stat.gov.pl/spisy-powszechne/nsp-2021/nsp-2021-wyniki-ostateczne/ Languages spoken at home in the 2021 Polish Census
 Portugal	PT	"10,355,493"	95%	"314,100,000,000"		English	en	27%
 Portugal	PT	"10,355,493"	95%	"314,100,000,000"		French	fr	15%
 Portugal	PT	"10,355,493"	95%	"314,100,000,000"		Galician	gl	"14,900"
