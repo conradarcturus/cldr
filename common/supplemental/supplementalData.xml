@@ -4240,7 +4240,6 @@ XXX Code for transations where no currency is involved
 			<languagePopulation type="ady" populationPercent="0.39"/>	<!--Adyghe-->
 			<languagePopulation type="kiu" populationPercent="0.19"/>	<!--Kirmanjki-->
 			<languagePopulation type="kaa" populationPercent="0.1" references="R1199"/>	<!--Kara-Kalpak-->
-			<languagePopulation type="kaa" populationPercent="0.1" references="R1199"/>	<!--Kara-Kalpak-->
 			<languagePopulation type="hy" populationPercent="0.056"/>	<!--Armenian-->
 			<languagePopulation type="ka" populationPercent="0.056"/>	<!--Georgian-->
 			<languagePopulation type="sr_Latn" writingPercent="5" populationPercent="0.028" references="R1017"/>	<!--Serbian (Latin)-->
