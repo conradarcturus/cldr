@@ -526,6 +526,7 @@ public class GenerateLikelySubtags {
                                 {"arc_Hatr", "arc_Hatr_IQ"},
                                 {"hnj_Hmng", "hnj_Hmng_LA"},
                                 {"bap_Krai", "bap_Krai_IN"},
+                                {"grc_Cprt", "grc_Cprt_CY"},
                             });
 
     /**

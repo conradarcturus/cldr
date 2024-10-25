@@ -491,7 +491,7 @@ public class SupplementalDataInfo {
         @Override
         public BasicLanguageData cloneAsThawed() {
             BasicLanguageData result = new BasicLanguageData();
-            result.scripts = new LinkedHashSet<>(scripts); // Preserve order
+            result.scripts = new TreesSet<>(scripts); 
             result.territories = new TreeSet<>(territories);
             return this;
         }
